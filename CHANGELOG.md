@@ -15,3 +15,7 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 - fix: update README to use local demo GIF for preview
 - fix: correct repository and bugs URLs in package.json
 - fix: add activation event for onStartupFinished in package.json
+
+## [0.0.3] - 2025-03-20
+
+fix: typo custom editor view type
