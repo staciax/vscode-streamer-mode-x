@@ -12,3 +12,4 @@ esbuild.ts
 **/.vscode-test.*
 **/prettier.config.mjs
 **/.prettierignore
+docs/demo.gif
