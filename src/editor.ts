@@ -31,7 +31,7 @@ export class StreamerModeEditor implements vscode.CustomTextEditorProvider {
         return providerRegistration;
     }
 
-    private static readonly viewType = 'vscode-streamer-mode.editor';
+    private static readonly viewType = 'vscode-streamer-mode-x.editor';
 
     constructor(
         private readonly context: vscode.ExtensionContext,
