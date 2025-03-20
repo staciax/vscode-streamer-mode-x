@@ -4,7 +4,7 @@ A Visual Studio Code extension that protects sensitive files like `.env`, especi
 
 <!-- When you try to open a protected file, **a warning screen** will appear instead of showing the file content. You can either **open the file anyway** or **close the warning**, keeping your secrets safe from accidental leaks during streams or presentations. -->
 
-![Preview](https://i.imgur.com/fAbDBSh.gif)
+![Preview](docs/demo.gif)
 
 ## Installation
 

@@ -3,14 +3,14 @@
     "module": "src/extension.ts",
     "displayName": "VSCode Streamer Mode X",
     "description": "A Visual Studio Code extension that protects sensitive files",
-    "version": "0.0.1",
+    "version": "0.0.2",
     "publisher": "staciax",
     "repository": {
         "type": "git",
-        "url": "https://github.com/staciax/vsode-streamer-mode-x.git"
+        "url": "https://github.com/staciax/vscode-streamer-mode-x.git"
     },
     "bugs": {
-        "url": "https://github.com/staciax/vsode-streamer-mode-x/issues"
+        "url": "https://github.com/staciax/vscode-streamer-mode-x/issues"
     },
     "galleryBanner": {
         "color": "#C3B1E1",
@@ -37,7 +37,9 @@
         "Visualization",
         "Education"
     ],
-    "activationEvents": [],
+    "activationEvents": [
+        "onStartupFinished"
+    ],
     "main": "./dist/extension.js",
     "contributes": {
         "commands": [
