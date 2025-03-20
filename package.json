@@ -37,7 +37,9 @@
         "Visualization",
         "Education"
     ],
-    "activationEvents": [],
+    "activationEvents": [
+        "onStartupFinished"
+    ],
     "main": "./dist/extension.js",
     "contributes": {
         "commands": [
