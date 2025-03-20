@@ -7,10 +7,10 @@
     "publisher": "staciax",
     "repository": {
         "type": "git",
-        "url": "https://github.com/staciax/vsode-streamer-mode-x.git"
+        "url": "https://github.com/staciax/vscode-streamer-mode-x.git"
     },
     "bugs": {
-        "url": "https://github.com/staciax/vsode-streamer-mode-x/issues"
+        "url": "https://github.com/staciax/vscode-streamer-mode-x/issues"
     },
     "galleryBanner": {
         "color": "#C3B1E1",
