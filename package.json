@@ -1,0 +1,92 @@
+{
+    "name": "vscode-streamer-mode-x",
+    "module": "src/extension.ts",
+    "displayName": "VSCode Streamer Mode X",
+    "description": "A Visual Studio Code extension that protects sensitive files",
+    "version": "0.0.1",
+    "publisher": "staciax",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/staciax/vsode-streamer-mode-x.git"
+    },
+    "bugs": {
+        "url": "https://github.com/staciax/vsode-streamer-mode-x/issues"
+    },
+    "galleryBanner": {
+        "color": "#C3B1E1",
+        "theme": "light"
+    },
+    "keywords": [
+        "streamer",
+        "streaming",
+        "security",
+        "privacy",
+        "sensitive",
+        "protection",
+        "env",
+        "secrets",
+        "api-keys",
+        "certificates"
+    ],
+    "icon": "icon.png",
+    "engines": {
+        "vscode": "^1.98.0"
+    },
+    "categories": [
+        "Other",
+        "Visualization",
+        "Education"
+    ],
+    "activationEvents": [],
+    "main": "./dist/extension.js",
+    "contributes": {
+        "commands": [
+            {
+                "command": "vscode-streamer-mode-x.toggle",
+                "title": "Toggle Streamer Mode"
+            }
+        ],
+        "customEditors": [
+            {
+                "viewType": "vscode-streamer-mode-x.editor",
+                "displayName": "Streamer Mode",
+                "selector": [
+                    {
+                        "filenamePattern": "*.{env,pem,key,cer,crt,p12,pfx}*"
+                    }
+                ],
+                "priority": "default"
+            }
+        ]
+    },
+    "scripts": {
+        "vscode:prepublish": "bun run package",
+        "compile": "bun run lint && bun esbuild.ts",
+        "watch": "bun run compile --watch --outdir ./out",
+        "watch:esbuild": "bun esbuild.ts --watch",
+        "package": "bun run lint && bun esbuild.ts --production",
+        "compile-tests": "bun build --sourcemap --outdir out --external 'vscode' --format cjs --target node src/*.ts src/**/*.ts",
+        "test": "vscode-test",
+        "pretest": "bun run compile-tests && bun run compile && bun run lint",
+        "lint": "eslint src",
+        "format": "bunx prettier --write src"
+    },
+    "devDependencies": {
+        "@types/mocha": "^10.0.10",
+        "@types/node": "^20.17.24",
+        "@types/vscode": "^1.98.0",
+        "@typescript-eslint/parser": "~8.26.1",
+        "@vscode/test-cli": "^0.0.10",
+        "@vscode/test-electron": "^2.4.1",
+        "esbuild": "~0.25.1",
+        "eslint": "~9.22.0",
+        "eslint-config-prettier": "~10.1.1",
+        "eslint-plugin-prettier": "~5.2.3",
+        "eslint-plugin-simple-import-sort": "~12.1.1",
+        "prettier": "3.5.3",
+        "typescript-eslint": "~8.26.1"
+    },
+    "peerDependencies": {
+        "typescript": "^5.7.3"
+    }
+}

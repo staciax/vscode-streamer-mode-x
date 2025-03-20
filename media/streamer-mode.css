@@ -1,0 +1,37 @@
+body {
+    margin: 0;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.container {
+    text-align: center;
+    padding: 3rem 2rem;
+    max-width: 500px;
+    width: 100%;
+}
+
+.warning-icon {
+    font-size: 3rem;
+    margin-bottom: 0.75rem;
+    color: #dca769;
+}
+
+.warning-title {
+    color: var(--vscode-errorForeground);
+    margin-bottom: 1rem;
+    font-size: 1.2rem;
+}
+
+.warning-text {
+    margin-bottom: 1.5rem;
+    line-height: 1.4;
+}
+
+.button-container {
+    display: flex;
+    justify-content: center;
+    gap: 16px;
+}
