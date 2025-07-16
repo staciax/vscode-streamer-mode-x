@@ -4,7 +4,7 @@ import type { StatusBar } from '@/status-bar';
 import { getNonce } from '@/utils';
 
 export class StreamerModeEditor implements vscode.CustomTextEditorProvider {
-    private isEnable = true;
+    private isEnabled = true;
 
     public static register(
         context: vscode.ExtensionContext,
@@ -22,7 +22,7 @@ export class StreamerModeEditor implements vscode.CustomTextEditorProvider {
                 () => {
                     provider.toggle();
                     vscode.window.showInformationMessage(
-                        `Streamer Mode is ${provider.isEnable ? 'Enabled' : 'Disabled'}`
+                        `Streamer Mode is ${provider.isEnabled ? 'Enabled' : 'Disabled'}`
                     );
                 }
             )
@@ -48,7 +48,7 @@ export class StreamerModeEditor implements vscode.CustomTextEditorProvider {
         webviewPanel: vscode.WebviewPanel,
         _token: vscode.CancellationToken
     ): Promise<void> {
-        if (!this.isEnable) {
+        if (!this.isEnabled) {
             await vscode.window.showTextDocument(document);
             return;
         }
@@ -169,7 +169,7 @@ export class StreamerModeEditor implements vscode.CustomTextEditorProvider {
     }
 
     private toggle() {
-        this.isEnable = !this.isEnable;
-        this.statusBar.update(this.isEnable);
+        this.isEnabled = !this.isEnabled;
+        this.statusBar.update(this.isEnabled);
     }
 }
