@@ -128,7 +128,7 @@ export class StreamerModeEditor implements vscode.CustomTextEditorProvider {
                     const config = vscode.workspace.getConfiguration();
                     const key = 'workbench.editorAssociations';
 
-                    // get workspace and global associations
+                    // Get workspace and global associations
                     const inspected =
                         config.inspect<Record<string, string>>(key);
 
@@ -141,7 +141,7 @@ export class StreamerModeEditor implements vscode.CustomTextEditorProvider {
                         }
                     >();
 
-                    // include global associations
+                    // Include global associations
                     if (inspected?.globalValue) {
                         for (const [pattern, value] of Object.entries(
                             inspected.globalValue
@@ -156,7 +156,7 @@ export class StreamerModeEditor implements vscode.CustomTextEditorProvider {
                         }
                     }
 
-                    // include workspace associations
+                    // Include workspace associations
                     if (inspected?.workspaceValue) {
                         for (const [pattern, value] of Object.entries(
                             inspected.workspaceValue
@@ -179,7 +179,7 @@ export class StreamerModeEditor implements vscode.CustomTextEditorProvider {
                         return;
                     }
 
-                    // show list to select
+                    // Show list to select
                     const selected = await vscode.window.showQuickPick(
                         Array.from(associations.keys()),
                         {
@@ -195,8 +195,7 @@ export class StreamerModeEditor implements vscode.CustomTextEditorProvider {
                         return;
                     }
 
-                    // remove selected associations
-
+                    // Remove selected associations
                     let successCount = 0;
                     for (const label of selected) {
                         const assoc = associations.get(label);
