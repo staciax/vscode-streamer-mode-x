@@ -291,7 +291,7 @@ export class StreamerModeEditor implements vscode.CustomTextEditorProvider {
         const changeDocumentSubscription =
             vscode.workspace.onDidChangeTextDocument(
                 (e: vscode.TextDocumentChangeEvent) => {
-                    if (e.document.uri.toString() === document.uri.toString()) {
+                    if (e.document.uri.fsPath === document.uri.fsPath) {
                         updateWebview();
                     }
                 }
