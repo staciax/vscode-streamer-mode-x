@@ -1,6 +1,6 @@
-import * as path from 'node:path';
+import path from 'node:path';
 
-import * as vscode from 'vscode';
+import vscode from 'vscode';
 
 import { StreamerModeEditor } from '@/editor';
 import { StatusBar } from '@/status-bar';
