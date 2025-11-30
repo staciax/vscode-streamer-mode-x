@@ -336,11 +336,13 @@ export class StreamerModeEditor implements vscode.CustomTextEditorProvider {
         );
 
         const nonce = getNonce();
+        const csp = `default-src 'none'; style-src ${webview.cspSource}; script-src 'nonce-${nonce}';`;
 
         return /* html */ `
         <!doctype html>
         <html lang="en">
         <head>
+            <meta http-equiv="Content-Security-Policy" content="${csp}">
             <meta charset="UTF-8" />
             <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
