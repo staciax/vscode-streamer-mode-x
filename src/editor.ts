@@ -325,11 +325,9 @@ export class StreamerModeEditor implements vscode.CustomTextEditorProvider {
         const styleVSCodeUri = webview.asWebviewUri(
             this.buildMediaUri('vscode.css')
         );
-
         const scriptUri = webview.asWebviewUri(
             this.buildMediaUri('streamer-mode.js')
         );
-
         const styleMainUri = webview.asWebviewUri(
             this.buildMediaUri('streamer-mode.css')
         );
