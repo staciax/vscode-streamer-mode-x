@@ -308,31 +308,30 @@ export class StreamerModeEditor implements vscode.CustomTextEditorProvider {
     }
 
     /**
+     * Build a URI for a media file contained in the `media` directory.
+     */
+    private buildMediaUri(filename: string): vscode.Uri {
+        return vscode.Uri.joinPath(
+            this.context.extensionUri,
+            'media',
+            filename
+        );
+    }
+
+    /**
      * Get the static html used for the editor webviews.
      */
     private getHtmlForWebview(webview: vscode.Webview): string {
         const styleVSCodeUri = webview.asWebviewUri(
-            vscode.Uri.joinPath(
-                this.context.extensionUri,
-                'media',
-                'vscode.css'
-            )
+            this.buildMediaUri('vscode.css')
         );
 
         const scriptUri = webview.asWebviewUri(
-            vscode.Uri.joinPath(
-                this.context.extensionUri,
-                'media',
-                'streamer-mode.js'
-            )
+            this.buildMediaUri('streamer-mode.js')
         );
 
         const styleMainUri = webview.asWebviewUri(
-            vscode.Uri.joinPath(
-                this.context.extensionUri,
-                'media',
-                'streamer-mode.css'
-            )
+            this.buildMediaUri('streamer-mode.css')
         );
 
         const nonce = getNonce();
