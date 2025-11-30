@@ -189,6 +189,9 @@ export class StreamerModeEditor implements vscode.CustomTextEditorProvider {
                     );
 
                     if (!selected?.length) {
+                        vscode.window.showInformationMessage(
+                            'No associations removed'
+                        );
                         return;
                     }
 
