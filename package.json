@@ -45,7 +45,15 @@
         "commands": [
             {
                 "command": "vscode-streamer-mode-x.toggle",
-                "title": "Toggle Streamer Mode"
+                "title": "Streamer Mode: Toggle"
+            },
+            {
+                "command": "vscode-streamer-mode-x.addAssociation",
+                "title": "Streamer Mode: Add File Association"
+            },
+            {
+                "command": "vscode-streamer-mode-x.removeAssociation",
+                "title": "Streamer Mode: Remove File Association"
             }
         ],
         "customEditors": [
