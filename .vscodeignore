@@ -9,5 +9,5 @@ esbuild.ts
 **/*.map
 **/*.ts
 **/.vscode-test.*
-**/biome.json
+**/biome.jsonc
 docs/demo.gif
