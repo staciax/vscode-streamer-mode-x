@@ -15,7 +15,7 @@ type ThemeFileData = {
     fileExtensions?: Record<string, string>;
     fileNames?: Record<string, string>;
     languageIds?: Record<string, string>;
-    // biome-ignore lint/suspicious/noExplicitAny: false positive
+    // biome-ignore lint/suspicious/noExplicitAny: Dynamic theme properties require flexible typing
     [key: string]: any;
 };
 
@@ -32,7 +32,7 @@ type PackageJSON = {
 };
 
 type ThemeExtensionInfo = {
-    // biome-ignore lint/suspicious/noExplicitAny: false positive
+    // biome-ignore lint/suspicious/noExplicitAny: VSCode Extension type requires generic parameter
     extension: vscode.Extension<any>;
     themePath: string;
 };
