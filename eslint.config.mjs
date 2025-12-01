@@ -1,10 +1,13 @@
 import eslint from '@eslint/js';
 import tsParser from '@typescript-eslint/parser';
+import { defineConfig } from 'eslint/config';
 import simpleImportSort from 'eslint-plugin-simple-import-sort';
 import globals from 'globals';
 import tseslint from 'typescript-eslint';
 
-export default tseslint.config(
+// TODO: migrate eslint/prettier to biome
+
+export default defineConfig(
     eslint.configs.recommended,
     tseslint.configs.recommended,
     {
