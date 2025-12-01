@@ -11,7 +11,7 @@ export default class Logger {
     private outputChannel: LogOutputChannel;
 
     /**
-     * Creates a new logger for the given Biome instance
+     * Creates a new logger output channel with the given name.
      */
     constructor(name: string) {
         this.outputChannel = window.createOutputChannel(name, {
