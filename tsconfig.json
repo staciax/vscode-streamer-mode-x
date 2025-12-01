@@ -30,7 +30,8 @@
 
         // Paths
         "paths": {
-            "@/*": ["./src/*"]
+            "@/*": ["./src/*"],
+            "@utils/*": ["./src/utils/*"]
         }
     },
     "include": ["src"],
