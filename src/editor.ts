@@ -1,8 +1,8 @@
 import vscode from 'vscode';
 
-import Logger from '@/logger';
-import type { StatusBar } from '@/status-bar';
-import { getNonce } from '@/utils/nonce';
+import type Logger from './logger';
+import type { StatusBar } from './status-bar';
+import { getNonce } from './utils/nonce';
 
 export class StreamerModeEditor implements vscode.CustomTextEditorProvider {
     /**

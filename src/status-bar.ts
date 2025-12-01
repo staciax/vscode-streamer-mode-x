@@ -1,6 +1,6 @@
 import * as vscode from 'vscode';
 
-import type Logger from '@/logger';
+import type Logger from './logger';
 
 export class StatusBar implements vscode.Disposable {
     /**

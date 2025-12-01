@@ -2,10 +2,10 @@ import path from 'node:path';
 
 import vscode from 'vscode';
 
-import { StreamerModeEditor } from '@/editor';
-import Logger from '@/logger';
-import { StatusBar } from '@/status-bar';
-import { clearThemeCache, getFileIconUri } from '@/utils/theme';
+import { StreamerModeEditor } from './editor';
+import Logger from './logger';
+import { StatusBar } from './status-bar';
+import { clearThemeCache, getFileIconUri } from './utils/theme';
 
 // import { generateExcludePattern } from '@/utils/exclude-pattern';
 
