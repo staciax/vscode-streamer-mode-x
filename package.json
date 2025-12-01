@@ -82,6 +82,7 @@
         "format": "bunx prettier --write src"
     },
     "devDependencies": {
+        "@eslint/js": "^9.39.1",
         "@types/mocha": "^10.0.10",
         "@types/node": "^24.10.1",
         "@types/vscode": "^1.106.1",
@@ -93,6 +94,8 @@
         "eslint-config-prettier": "~10.1.8",
         "eslint-plugin-prettier": "~5.5.4",
         "eslint-plugin-simple-import-sort": "~12.1.1",
+        "globals": "~16.5.0",
+        "ovsx": "~0.10.7",
         "prettier": "3.7.3",
         "typescript-eslint": "~8.48.0"
     },
