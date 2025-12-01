@@ -2,9 +2,7 @@
 
 // This script is run within the webview itself
 (() => {
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
-    // eslint-disable-next-line no-undef
     const vscode = acquireVsCodeApi();
 
     function handleOpen() {

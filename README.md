@@ -49,4 +49,4 @@ This project is licensed under the GNUv3 License - see the [LICENSE](LICENSE.md)
 
 <!-- TODO -->
 <!-- custom html, css -->
-<!-- eslint,prettier to biomejs -->
+<!-- TODO: github actions -->
