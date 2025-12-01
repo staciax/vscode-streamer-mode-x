@@ -15,7 +15,7 @@ export default class Logger {
      */
     constructor(name: string) {
         this.outputChannel = window.createOutputChannel(name, {
-            log: true
+            log: true,
         });
     }
 

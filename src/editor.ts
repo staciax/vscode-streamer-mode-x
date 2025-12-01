@@ -18,12 +18,12 @@ export class StreamerModeEditor implements vscode.CustomTextEditorProvider {
     public static register(
         context: vscode.ExtensionContext,
         statusBar: StatusBar,
-        logger: Logger
+        logger: Logger,
     ): vscode.Disposable {
         const provider = new StreamerModeEditor(context, statusBar, logger);
         const providerRegistration = vscode.window.registerCustomEditorProvider(
             StreamerModeEditor.viewType,
-            provider
+            provider,
         );
 
         context.subscriptions.push(
@@ -32,13 +32,13 @@ export class StreamerModeEditor implements vscode.CustomTextEditorProvider {
                 () => {
                     provider.toggle();
                     vscode.window.showInformationMessage(
-                        `Streamer Mode is ${provider.isEnable ? 'Enabled' : 'Disabled'}`
+                        `Streamer Mode is ${provider.isEnable ? 'Enabled' : 'Disabled'}`,
                     );
                     logger.info(
-                        `editor: toggled streamer mode to ${provider.isEnable}`
+                        `editor: toggled streamer mode to ${provider.isEnable}`,
                     );
-                }
-            )
+                },
+            ),
         );
 
         logger.debug('editor: registered custom editor provider');
@@ -51,7 +51,7 @@ export class StreamerModeEditor implements vscode.CustomTextEditorProvider {
     constructor(
         private readonly context: vscode.ExtensionContext,
         private readonly statusBar: StatusBar,
-        private readonly logger: Logger
+        private readonly logger: Logger,
     ) {}
 
     /**
@@ -62,15 +62,15 @@ export class StreamerModeEditor implements vscode.CustomTextEditorProvider {
     public async resolveCustomTextEditor(
         document: vscode.TextDocument,
         webviewPanel: vscode.WebviewPanel,
-        _token: vscode.CancellationToken
+        _token: vscode.CancellationToken,
     ): Promise<void> {
         this.logger.debug(
-            `editor: resolving custom editor for ${document.uri.fsPath}`
+            `editor: resolving custom editor for ${document.uri.fsPath}`,
         );
 
         if (!this.isEnable) {
             this.logger.debug(
-                'editor: streamer mode disabled, opening as normal text document'
+                'editor: streamer mode disabled, opening as normal text document',
             );
             await vscode.window.showTextDocument(document);
             return;
@@ -80,10 +80,10 @@ export class StreamerModeEditor implements vscode.CustomTextEditorProvider {
 
         // Setup initial content for the webview
         webviewPanel.webview.options = {
-            enableScripts: true
+            enableScripts: true,
         };
         webviewPanel.webview.html = this.getHtmlForWebview(
-            webviewPanel.webview
+            webviewPanel.webview,
         );
 
         type WebviewMessage = { type: 'open' } | { type: 'close' };
@@ -97,17 +97,17 @@ export class StreamerModeEditor implements vscode.CustomTextEditorProvider {
                 //     break;
                 case 'open':
                     this.logger.debug(
-                        `editor: user opened file anyway: ${document.uri.fsPath}`
+                        `editor: user opened file anyway: ${document.uri.fsPath}`,
                     );
                     await vscode.window.showTextDocument(document);
                     break;
                 case 'close':
                     this.logger.debug(
                         // 'editor: user closed streamer mode warning'
-                        `editor: user closed streamer mode warning for ${document.uri.fsPath}`
+                        `editor: user closed streamer mode warning for ${document.uri.fsPath}`,
                     );
                     await vscode.commands.executeCommand(
-                        'workbench.action.closeActiveEditor'
+                        'workbench.action.closeActiveEditor',
                     );
                     break;
                 default:
@@ -118,7 +118,7 @@ export class StreamerModeEditor implements vscode.CustomTextEditorProvider {
         function updateWebview() {
             webviewPanel.webview.postMessage({
                 type: 'update',
-                text: document.getText()
+                text: document.getText(),
             });
         }
 
@@ -139,7 +139,7 @@ export class StreamerModeEditor implements vscode.CustomTextEditorProvider {
                         // );
                         updateWebview();
                     }
-                }
+                },
             );
 
         // Make sure we get rid of the listener when our editor is closed.
@@ -160,7 +160,7 @@ export class StreamerModeEditor implements vscode.CustomTextEditorProvider {
         return vscode.Uri.joinPath(
             this.context.extensionUri,
             'media',
-            filename
+            filename,
         );
     }
 
@@ -169,13 +169,13 @@ export class StreamerModeEditor implements vscode.CustomTextEditorProvider {
      */
     private getHtmlForWebview(webview: vscode.Webview): string {
         const styleVSCodeUri = webview.asWebviewUri(
-            this.buildMediaUri('vscode.css')
+            this.buildMediaUri('vscode.css'),
         );
         const scriptUri = webview.asWebviewUri(
-            this.buildMediaUri('streamer-mode.js')
+            this.buildMediaUri('streamer-mode.js'),
         );
         const styleMainUri = webview.asWebviewUri(
-            this.buildMediaUri('streamer-mode.css')
+            this.buildMediaUri('streamer-mode.css'),
         );
 
         const nonce = getNonce();
