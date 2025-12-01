@@ -56,7 +56,7 @@ export default class Logger {
      * @param message The debug message to log.
      */
     public debug(message?: string): void {
-        this.outputChannel.warn(message ?? '');
+        this.outputChannel.debug(message ?? '');
     }
 
     /**
