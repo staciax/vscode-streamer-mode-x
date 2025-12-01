@@ -1,9 +1,20 @@
 import * as vscode from 'vscode';
 
-export class StatusBar implements vscode.Disposable {
-    private statusBarItem: vscode.StatusBarItem;
+import type Logger from '@/logger';
 
-    constructor() {
+export class StatusBar implements vscode.Disposable {
+    /**
+     * Logger for Status Bar
+     * */
+    private readonly logger: Logger;
+
+    /**
+     * The status bar item
+     */
+    private readonly statusBarItem: vscode.StatusBarItem;
+
+    constructor(logger: Logger) {
+        this.logger = logger;
         this.statusBarItem = vscode.window.createStatusBarItem(
             'vscode-streamer-mode-x.status',
             vscode.StatusBarAlignment.Left,
@@ -11,7 +22,9 @@ export class StatusBar implements vscode.Disposable {
         );
         this.statusBarItem.text = '$(check) Streamer Mode';
         this.statusBarItem.command = 'vscode-streamer-mode-x.toggle';
-        this.statusBarItem.show();
+        this.show();
+
+        this.logger.debug('status bar: initialized');
     }
 
     public update(enable: boolean): void {
@@ -20,11 +33,18 @@ export class StatusBar implements vscode.Disposable {
             : '$(x) Streamer Mode';
     }
 
+    public show() {
+        this.statusBarItem.show();
+        // this.logger.debug('status bar: item shown');
+    }
+
     public hide() {
         this.statusBarItem.hide();
+        this.logger.debug('status bar: item hidden');
     }
 
     public dispose(): void {
         this.statusBarItem.dispose();
+        this.logger.debug('status bar: item disposed');
     }
 }
