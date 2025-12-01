@@ -65,5 +65,23 @@
         "formatter": {
             "quoteStyle": "single"
         }
-    }
+    },
+    "overrides": [
+        {
+            "includes": ["src/test/**/*.ts"],
+            "javascript": {
+                "globals": ["suite", "test", "setup", "teardown"]
+            }
+        },
+        {
+            "includes": ["media/**/*.css"],
+            "linter": {
+                "rules": {
+                    "complexity": {
+                        "noImportantStyles": "off"
+                    }
+                }
+            }
+        }
+    ]
 }
