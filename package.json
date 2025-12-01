@@ -78,26 +78,18 @@
         "compile-tests": "bun build --sourcemap --outdir out --external 'vscode' --format cjs --target node src/*.ts src/**/*.ts",
         "test": "vscode-test",
         "pretest": "bun run compile-tests && bun run compile && bun run lint",
-        "lint": "eslint src",
-        "format": "bunx prettier --write src"
+        "lint": "biome check . && biome format . --check",
+        "format": "biome check --write . && biome format . --write"
     },
     "devDependencies": {
-        "@eslint/js": "^9.39.1",
+        "@biomejs/biome": "2.3.8",
         "@types/mocha": "^10.0.10",
         "@types/node": "^24.10.1",
         "@types/vscode": "^1.106.1",
-        "@typescript-eslint/parser": "~8.48.0",
         "@vscode/test-cli": "^0.0.12",
         "@vscode/test-electron": "^2.5.2",
         "esbuild": "~0.27.0",
-        "eslint": "~9.39.1",
-        "eslint-config-prettier": "~10.1.8",
-        "eslint-plugin-prettier": "~5.5.4",
-        "eslint-plugin-simple-import-sort": "~12.1.1",
-        "globals": "~16.5.0",
-        "ovsx": "~0.10.7",
-        "prettier": "3.7.3",
-        "typescript-eslint": "~8.48.0"
+        "ovsx": "~0.10.7"
     },
     "peerDependencies": {
         "typescript": "^5.7.3"

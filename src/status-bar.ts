@@ -1,6 +1,6 @@
 import * as vscode from 'vscode';
 
-import type Logger from '@/logger';
+import type Logger from './logger';
 
 export class StatusBar implements vscode.Disposable {
     /**
@@ -18,7 +18,7 @@ export class StatusBar implements vscode.Disposable {
         this.statusBarItem = vscode.window.createStatusBarItem(
             'vscode-streamer-mode-x.status',
             vscode.StatusBarAlignment.Left,
-            -1
+            -1,
         );
         this.statusBarItem.text = '$(check) Streamer Mode';
         this.statusBarItem.command = 'vscode-streamer-mode-x.toggle';

@@ -1,0 +1,87 @@
+{
+    "$schema": "https://biomejs.dev/schemas/2.3.8/schema.json",
+    "vcs": {
+        "enabled": true,
+        "clientKind": "git",
+        "useIgnoreFile": true
+    },
+    "files": {
+        "ignoreUnknown": true,
+        "includes": [
+            "**",
+            "!node_modules",
+            "!dist",
+            "!build",
+            "!out",
+            "!.vscode-test"
+        ]
+    },
+    "assist": {
+        "actions": {
+            "source": {
+                "organizeImports": {
+                    "level": "on",
+                    "options": {
+                        "groups": [
+                            [":BUN:", ":NODE:"],
+                            ":BLANK_LINE:",
+                            ":URL:",
+                            ":PACKAGE:",
+                            ":PACKAGE_WITH_PROTOCOL:",
+                            ":BLANK_LINE:",
+                            ":PATH:"
+                        ]
+                    }
+                }
+            }
+        }
+    },
+    "formatter": {
+        "enabled": true,
+        "indentStyle": "space",
+        "indentWidth": 4,
+        "lineWidth": 80
+    },
+    "linter": {
+        "enabled": true,
+        "rules": {
+            "recommended": true,
+            "correctness": {
+                "noUndeclaredVariables": "error"
+            },
+            "style": {
+                "noCommonJs": "error",
+                "noNamespace": "error",
+                "useAsConstAssertion": "error",
+                "useBlockStatements": "warn"
+            },
+            "suspicious": {
+                "noConstantBinaryExpressions": "error",
+                "noEmptyBlockStatements": "warn"
+            }
+        }
+    },
+    "javascript": {
+        "formatter": {
+            "quoteStyle": "single"
+        }
+    },
+    "overrides": [
+        {
+            "includes": ["src/test/**/*.ts"],
+            "javascript": {
+                "globals": ["suite", "test", "setup", "teardown"]
+            }
+        },
+        {
+            "includes": ["media/**/*.css"],
+            "linter": {
+                "rules": {
+                    "complexity": {
+                        "noImportantStyles": "off"
+                    }
+                }
+            }
+        }
+    ]
+}

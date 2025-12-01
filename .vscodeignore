@@ -6,10 +6,8 @@ src/**
 .gitignore
 esbuild.ts
 **/tsconfig.json
-**/eslint.config.mjs
 **/*.map
 **/*.ts
 **/.vscode-test.*
-**/prettier.config.mjs
-**/.prettierignore
+**/biome.jsonc
 docs/demo.gif

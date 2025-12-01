@@ -1,6 +1,6 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-import fs from 'fs/promises';
-import path from 'path';
+import fs from 'node:fs/promises';
+import path from 'node:path';
+
 import vscode from 'vscode';
 
 // Thanks to this StackOverflow answer for guidance:
@@ -15,6 +15,7 @@ type ThemeFileData = {
     fileExtensions?: Record<string, string>;
     fileNames?: Record<string, string>;
     languageIds?: Record<string, string>;
+    // biome-ignore lint/suspicious/noExplicitAny: Dynamic theme properties require flexible typing
     [key: string]: any;
 };
 
@@ -31,6 +32,7 @@ type PackageJSON = {
 };
 
 type ThemeExtensionInfo = {
+    // biome-ignore lint/suspicious/noExplicitAny: VSCode Extension type requires generic parameter
     extension: vscode.Extension<any>;
     themePath: string;
 };
@@ -74,7 +76,7 @@ function findThemeExtension(iconThemeId: string): ThemeExtensionInfo | null {
         if (theme) {
             return {
                 extension: ext,
-                themePath: theme.path
+                themePath: theme.path,
             };
         }
     }
@@ -93,20 +95,20 @@ async function loadTheme(iconThemeId: string): Promise<ThemeData | null> {
     }
 
     if (themeCache.has(iconThemeId)) {
-        return themeCache.get(iconThemeId)!;
+        return themeCache.get(iconThemeId) as ThemeData;
     }
 
     try {
         const fullThemePath = path.join(
             themeInfo.extension.extensionPath,
-            themeInfo.themePath
+            themeInfo.themePath,
         );
         const content = await fs.readFile(fullThemePath, 'utf-8');
         const data = JSON.parse(content) as ThemeFileData;
 
         const themeData = {
             data,
-            themeDir: path.dirname(fullThemePath)
+            themeDir: path.dirname(fullThemePath),
         };
         themeCache.set(iconThemeId, themeData);
         return themeData;
@@ -122,7 +124,7 @@ async function loadTheme(iconThemeId: string): Promise<ThemeData | null> {
  * @returns Icon theme data, or null if theme not found
  */
 export async function getIconThemeData(
-    iconThemeId: string
+    iconThemeId: string,
 ): Promise<ThemeFileData | null> {
     const theme = await loadTheme(iconThemeId);
     return theme?.data ?? null;
@@ -133,7 +135,7 @@ export async function getIconThemeData(
  */
 function resolveIconKey(
     themeData: ThemeFileData,
-    filePath: string
+    filePath: string,
 ): string | null {
     const fileName = path.basename(filePath);
 
@@ -169,7 +171,7 @@ function resolveIconKey(
  */
 export async function getFileIconUri(
     filePath: string,
-    iconThemeId?: string
+    iconThemeId?: string,
 ): Promise<vscode.Uri | null> {
     const themeId = iconThemeId ?? getActiveIconThemeId();
     if (!themeId) {

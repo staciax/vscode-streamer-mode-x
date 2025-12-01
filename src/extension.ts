@@ -2,10 +2,10 @@ import path from 'node:path';
 
 import vscode from 'vscode';
 
-import { StreamerModeEditor } from '@/editor';
-import Logger from '@/logger';
-import { StatusBar } from '@/status-bar';
-import { clearThemeCache, getFileIconUri } from '@/utils/theme';
+import { StreamerModeEditor } from './editor';
+import Logger from './logger';
+import { StatusBar } from './status-bar';
+import { clearThemeCache, getFileIconUri } from './utils/theme';
 
 // import { generateExcludePattern } from '@/utils/exclude-pattern';
 
@@ -17,7 +17,7 @@ export function activate(context: vscode.ExtensionContext) {
     const statusBar = new StatusBar(logger);
 
     context.subscriptions.push(
-        StreamerModeEditor.register(context, statusBar, logger)
+        StreamerModeEditor.register(context, statusBar, logger),
     );
 
     context.subscriptions.push(
@@ -64,14 +64,14 @@ export function activate(context: vscode.ExtensionContext) {
                     // }
 
                     const files = await vscode.workspace.findFiles(
-                        '**/*'
+                        '**/*',
                         // excludePattern,
                         // 100 // limit to first 100 files
                     );
 
                     if (files.length === 0) {
                         vscode.window.showErrorMessage(
-                            'No files found in workspace'
+                            'No files found in workspace',
                         );
                         return;
                     }
@@ -84,7 +84,7 @@ export function activate(context: vscode.ExtensionContext) {
                     })[] = [];
 
                     const sortedFiles = files.sort((a, b) =>
-                        a.fsPath.localeCompare(b.fsPath)
+                        a.fsPath.localeCompare(b.fsPath),
                     );
 
                     for (const file of sortedFiles) {
@@ -96,13 +96,13 @@ export function activate(context: vscode.ExtensionContext) {
                             label: basename,
                             description: relativePath,
                             iconPath: iconUri ? iconUri : vscode.ThemeIcon.File,
-                            uri: file
+                            uri: file,
                         });
                     }
 
                     const pick = await vscode.window.showQuickPick(fileItems, {
                         placeHolder: 'Select files to add association',
-                        matchOnDescription: true
+                        matchOnDescription: true,
                         // canPickMany: true,
                     });
 
@@ -122,7 +122,7 @@ export function activate(context: vscode.ExtensionContext) {
                 // }
 
                 logger.debug(
-                    `command: adding association for ${selectedFileUri.fsPath}`
+                    `command: adding association for ${selectedFileUri.fsPath}`,
                 );
 
                 const base = path.basename(selectedFileUri.fsPath);
@@ -138,7 +138,7 @@ export function activate(context: vscode.ExtensionContext) {
                         // description: `*${ext}`,
                         label: `Extension (*${ext})`,
                         description: 'Match files by extension',
-                        iconPath: new vscode.ThemeIcon('regex')
+                        iconPath: new vscode.ThemeIcon('regex'),
                     });
                 }
 
@@ -150,14 +150,14 @@ export function activate(context: vscode.ExtensionContext) {
                     label: `File (${base})`,
                     description: 'Exact file name match',
                     // iconPath: iconUri ? iconUri : vscode.ThemeIcon.File
-                    iconPath: vscode.ThemeIcon.File
+                    iconPath: vscode.ThemeIcon.File,
                 });
 
                 const selectedPattern = await vscode.window.showQuickPick(
                     patternOptions,
                     {
-                        placeHolder: 'Choose the matching pattern to add'
-                    }
+                        placeHolder: 'Choose the matching pattern to add',
+                    },
                 );
                 if (!selectedPattern) {
                     return;
@@ -171,7 +171,7 @@ export function activate(context: vscode.ExtensionContext) {
                 // Select scope
                 const selectedScope = await vscode.window.showQuickPick(
                     ['Workspace', 'Global'],
-                    { placeHolder: 'Add to which settings scope?' }
+                    { placeHolder: 'Add to which settings scope?' },
                 );
                 if (!selectedScope) {
                     return;
@@ -182,7 +182,7 @@ export function activate(context: vscode.ExtensionContext) {
                     !vscode.workspace.workspaceFolders
                 ) {
                     vscode.window.showErrorMessage(
-                        'No workspace open to update workspace settings'
+                        'No workspace open to update workspace settings',
                     );
                     return;
                 }
@@ -208,23 +208,23 @@ export function activate(context: vscode.ExtensionContext) {
                 try {
                     await config.update(key, updated, target);
                     logger.debug(
-                        `command: added association ${pattern} to ${selectedScope}`
+                        `command: added association ${pattern} to ${selectedScope}`,
                     );
                     vscode.window.showInformationMessage(
-                        `Added ${pattern} → ${StreamerModeEditor.viewType} to ${selectedScope}`
+                        `Added ${pattern} → ${StreamerModeEditor.viewType} to ${selectedScope}`,
                     );
                 } catch (e) {
                     const errorMessage =
                         e instanceof Error ? e.message : String(e);
                     logger.error(
-                        `command: failed to add association: ${errorMessage}`
+                        `command: failed to add association: ${errorMessage}`,
                     );
                     vscode.window.showErrorMessage(
-                        `Failed to add association: ${errorMessage}`
+                        `Failed to add association: ${errorMessage}`,
                     );
                 }
-            }
-        )
+            },
+        ),
     );
 
     context.subscriptions.push(
@@ -251,13 +251,13 @@ export function activate(context: vscode.ExtensionContext) {
                 // Include global associations
                 if (inspected?.globalValue) {
                     for (const [pattern, value] of Object.entries(
-                        inspected.globalValue
+                        inspected.globalValue,
                     )) {
                         if (value === StreamerModeEditor.viewType) {
                             associations[pattern] = {
                                 pattern: pattern,
                                 target: vscode.ConfigurationTarget.Global,
-                                sourceConfig: inspected.globalValue
+                                sourceConfig: inspected.globalValue,
                             };
                         }
                     }
@@ -266,13 +266,13 @@ export function activate(context: vscode.ExtensionContext) {
                 // Include workspace associations
                 if (inspected?.workspaceValue) {
                     for (const [pattern, value] of Object.entries(
-                        inspected.workspaceValue
+                        inspected.workspaceValue,
                     )) {
                         if (value === StreamerModeEditor.viewType) {
                             associations[pattern] = {
                                 pattern,
                                 target: vscode.ConfigurationTarget.Workspace,
-                                sourceConfig: inspected.workspaceValue
+                                sourceConfig: inspected.workspaceValue,
                             };
                         }
                     }
@@ -281,22 +281,22 @@ export function activate(context: vscode.ExtensionContext) {
                 if (Object.keys(associations).length === 0) {
                     logger.debug('command: no associations found');
                     vscode.window.showInformationMessage(
-                        'No associations found for Streamer Mode'
+                        'No associations found for Streamer Mode',
                     );
                     return;
                 }
                 logger.debug(
-                    `command: found ${Object.keys(associations).length} association(s)`
+                    `command: found ${Object.keys(associations).length} association(s)`,
                 );
 
                 const patternItems: vscode.QuickPickItem[] = Object.entries(
-                    associations
+                    associations,
                 ).map(([pattern, assoc]) => ({
                     label: pattern,
                     description:
                         assoc.target === vscode.ConfigurationTarget.Global
                             ? 'Global'
-                            : 'Workspace'
+                            : 'Workspace',
                     // iconPath:
                     //     assoc.target === vscode.ConfigurationTarget.Global
                     //         ? new vscode.ThemeIcon('globe')
@@ -308,13 +308,13 @@ export function activate(context: vscode.ExtensionContext) {
                     patternItems,
                     {
                         placeHolder: 'Select associations to remove',
-                        canPickMany: true
-                    }
+                        canPickMany: true,
+                    },
                 );
 
                 if (!selected?.length) {
                     vscode.window.showInformationMessage(
-                        'No associations removed'
+                        'No associations removed',
                     );
                     return;
                 }
@@ -337,25 +337,25 @@ export function activate(context: vscode.ExtensionContext) {
                         const errorMessage =
                             e instanceof Error ? e.message : String(e);
                         vscode.window.showErrorMessage(
-                            `Failed to remove ${assoc.pattern}: ${errorMessage}`
+                            `Failed to remove ${assoc.pattern}: ${errorMessage}`,
                         );
                     }
                 }
 
                 if (successCount > 0) {
                     logger.debug(
-                        `command: removed ${successCount} of ${selected.length} association(s)`
+                        `command: removed ${successCount} of ${selected.length} association(s)`,
                     );
                     vscode.window.showInformationMessage(
-                        `Removed ${successCount} of ${selected.length} association(s)`
+                        `Removed ${successCount} of ${selected.length} association(s)`,
                     );
                 } else {
                     logger.warn(
-                        'command: failed to remove all selected associations'
+                        'command: failed to remove all selected associations',
                     );
                 }
-            }
-        )
+            },
+        ),
     );
 
     logger.debug('extension: activated successfully');

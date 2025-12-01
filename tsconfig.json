@@ -26,13 +26,7 @@
         // Some stricter flags (disabled by default)
         "noImplicitReturns": true,
         "noUnusedParameters": true,
-        "noUnusedLocals": true,
-
-        // Paths
-        "paths": {
-            "@/*": ["./src/*"],
-            "@utils/*": ["./src/utils/*"]
-        }
+        "noUnusedLocals": true
     },
     "include": ["src"],
     "exclude": ["node_modules", "dist", "out"]
