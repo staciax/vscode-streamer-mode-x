@@ -108,31 +108,38 @@ export function activate(context: vscode.ExtensionContext) {
                         ? `*${extname}`
                         : basename;
 
+                const scopeOptions: {
+                    label: string;
+                    value: string;
+                    description: string;
+                    iconPath: vscode.ThemeIcon;
+                }[] = [
+                    {
+                        label: 'Global',
+                        value: 'global',
+                        description: 'User settings for all workspaces',
+                        iconPath: new vscode.ThemeIcon('globe'),
+                    },
+                ];
+
+                if (workspaceFolder) {
+                    scopeOptions.unshift({
+                        label: 'Workspace',
+                        value: 'workspace',
+                        description: 'Current workspace settings',
+                        iconPath: new vscode.ThemeIcon('folder'),
+                    });
+                }
+
                 // Select scope
                 const selectedScope = await vscode.window.showQuickPick(
-                    [
-                        {
-                            label: 'Workspace',
-                            value: 'workspace',
-                        },
-                        {
-                            label: 'Global',
-                            value: 'global',
-                        },
-                    ],
+                    scopeOptions,
                     {
                         placeHolder: 'Add to which settings scope?',
                     },
                 );
 
                 if (!selectedScope) {
-                    return;
-                }
-
-                if (selectedScope.value === 'workspace' && !workspaceFolder) {
-                    vscode.window.showErrorMessage(
-                        'No workspace open to update workspace settings',
-                    );
                     return;
                 }
 
@@ -237,7 +244,7 @@ export function activate(context: vscode.ExtensionContext) {
                     `command: found ${Object.keys(associations).length} association(s)`,
                 );
 
-                const patternItems: vscode.QuickPickItem[] = Object.entries(
+                const patternOptions: vscode.QuickPickItem[] = Object.entries(
                     associations,
                 ).map(([pattern, assoc]) => ({
                     label: pattern,
@@ -253,7 +260,7 @@ export function activate(context: vscode.ExtensionContext) {
 
                 // Show list to select
                 const selected = await vscode.window.showQuickPick(
-                    patternItems,
+                    patternOptions,
                     {
                         placeHolder: 'Select associations to remove',
                         canPickMany: true,
