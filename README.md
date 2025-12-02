@@ -38,6 +38,21 @@ You can enable/disable the protection in two ways:
 
 When disabled, protected files will open normally without the warning screen.
 
+### Managing File Associations
+
+You can customize which files are protected:
+
+1. **Add File Association**: 
+   - Open command palette and select "Streamer Mode: Add File Association"
+   - Choose a file to protect
+   - Select pattern type (by extension or exact filename)
+   - Choose scope (Global or Workspace)
+
+2. **Remove File Association**: 
+   - Open command palette and select "Streamer Mode: Remove File Association"
+   - Select associations to remove from the list
+   - Supports removing multiple associations at once
+
 ## Runtime Environment
 
 > [!WARNING]  
@@ -50,3 +65,18 @@ This project is licensed under the GNUv3 License - see the [LICENSE](LICENSE.md)
 <!-- TODO -->
 <!-- custom html, css -->
 <!-- TODO: github actions -->
+  <!-- "streamerMode.enabled": {
+    "type": "boolean",
+    "default": true,
+    "description": "Enable/disable file protection"
+  },
+  "streamerMode.protectedPatterns": {
+    "type": "array",
+    "default": [".env*", "*.key", "*.pem", "*.crt", "*.p12", "*.pfx"],
+    "description": "Glob patterns for sensitive files"
+  },
+  "streamerMode.showStatusBar": {
+    "type": "boolean",
+    "default": true,
+    "description": "Show protection status in status bar"
+  } -->
