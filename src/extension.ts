@@ -4,7 +4,6 @@ import { Utils } from 'vscode-uri';
 import { StreamerModeEditor } from './editor';
 import Logger from './logger';
 import { StatusBar } from './status-bar';
-import { clearThemeCache } from './utils/theme';
 
 export function activate(context: vscode.ExtensionContext) {
     const logger = new Logger('VSCode Streamer Mode');
@@ -310,7 +309,5 @@ export function activate(context: vscode.ExtensionContext) {
     logger.debug('extension: activated successfully');
 }
 
-export function deactivate() {
-    // Clear icon theme cache
-    // clearThemeCache();
-}
+// biome-ignore lint/suspicious/noEmptyBlockStatements: intentional empty deactivate
+export function deactivate() {}
