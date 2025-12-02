@@ -1,10 +1,7 @@
-// @ts-check
-
 // This script is run within the webview itself
 (() => {
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
-    // eslint-disable-next-line no-undef
+    // @ts-expect-error
+    // biome-ignore lint/correctness/noUndeclaredVariables: provided by VS Code webview host
     const vscode = acquireVsCodeApi();
 
     function handleOpen() {

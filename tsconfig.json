@@ -13,6 +13,7 @@
 
         // Bundler mode
         "moduleResolution": "bundler",
+        "esModuleInterop": true,
         "allowImportingTsExtensions": true,
         "verbatimModuleSyntax": true,
         "noEmit": true,
@@ -25,12 +26,7 @@
         // Some stricter flags (disabled by default)
         "noImplicitReturns": true,
         "noUnusedParameters": true,
-        "noUnusedLocals": true,
-
-        // Paths
-        "paths": {
-            "@/*": ["./src/*"]
-        }
+        "noUnusedLocals": true
     },
     "include": ["src"],
     "exclude": ["node_modules", "dist", "out"]
