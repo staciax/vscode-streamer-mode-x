@@ -3,7 +3,7 @@
     "module": "src/extension.ts",
     "displayName": "Streamer Mode X",
     "description": "A Visual Studio Code extension that protects sensitive files",
-    "version": "0.0.8",
+    "version": "0.0.9",
     "publisher": "staciax",
     "repository": {
         "type": "git",
