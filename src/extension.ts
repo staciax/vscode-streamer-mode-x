@@ -290,20 +290,33 @@ export function activate(context: vscode.ExtensionContext) {
                     }
                 }
 
-                await Promise.all([
-                    config.update(
-                        key,
-                        globalAssociations,
-                        vscode.ConfigurationTarget.Global,
-                    ),
-                    config.update(
-                        key,
-                        workspaceAssociations,
-                        vscode.ConfigurationTarget.Workspace,
-                    ),
-                ]);
+                try {
+                    await Promise.all([
+                        config.update(
+                            key,
+                            globalAssociations,
+                            vscode.ConfigurationTarget.Global,
+                        ),
+                        config.update(
+                            key,
+                            workspaceAssociations,
+                            vscode.ConfigurationTarget.Workspace,
+                        ),
+                    ]);
+                } catch (e) {
+                    const errorMessage =
+                        e instanceof Error ? e.message : String(e);
+                    logger.error(
+                        `command: failed to remove association: ${errorMessage}`,
+                    );
+                    vscode.window.showErrorMessage(
+                        `Failed to remove association: ${errorMessage}`,
+                    );
+                    return;
+                }
 
                 const messages: string[] = [];
+
                 if (globalRemovedCount > 0) {
                     messages.push(`${globalRemovedCount} global`);
                 }
