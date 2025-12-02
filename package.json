@@ -81,7 +81,7 @@
         "compile-tests": "bun build --sourcemap --outdir out --external 'vscode' --format cjs --target node src/*.ts src/**/*.ts",
         "test": "vscode-test",
         "pretest": "bun run compile-tests && bun run compile && bun run lint",
-        "lint": "biome check . && biome format . --check",
+        "lint": "biome check . && biome format .",
         "format": "biome check --write . && biome format . --write"
     },
     "dependencies": {
