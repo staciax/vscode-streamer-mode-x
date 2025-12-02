@@ -134,9 +134,6 @@ export class StreamerModeEditor implements vscode.CustomTextEditorProvider {
             vscode.workspace.onDidChangeTextDocument(
                 (e: vscode.TextDocumentChangeEvent) => {
                     if (e.document.uri.fsPath === document.uri.fsPath) {
-                        // this.logger.debug(
-                        //     `editor: document changed: ${document.uri.fsPath}`
-                        // );
                         updateWebview();
                     }
                 },
@@ -144,9 +141,6 @@ export class StreamerModeEditor implements vscode.CustomTextEditorProvider {
 
         // Make sure we get rid of the listener when our editor is closed.
         webviewPanel.onDidDispose(() => {
-            // this.logger.debug(
-            //     `editor: webview disposed for ${document.uri.fsPath}`
-            // );
             changeDocumentSubscription.dispose();
         });
 
