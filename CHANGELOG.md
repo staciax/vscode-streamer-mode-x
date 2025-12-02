@@ -18,4 +18,26 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 
 ## [0.0.3] - 2025-03-20
 
-fix: typo custom editor view type
+- fix: typo custom editor view type
+
+## [0.0.4] - 2025-03-20
+
+- fix: downgrade vscode engine version to ^1.95.0
+- fix: downgrade @types/vscode version to ^1.95.0
+
+## [0.0.5] - 2025-03-20
+
+- chore: version bump
+
+## [0.0.6] - 2025-03-20
+
+- chore: version bump
+
+## [0.0.7] - 2025-03-20
+
+- chore: version bump
+
+## [0.0.8] - 2025-12-03
+
+- feat: add "Add File Association" command to dynamically add file patterns to Streamer Mode protection
+- feat: add "Remove File Association" command to remove file patterns from protection
