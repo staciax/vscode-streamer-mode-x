@@ -41,3 +41,6 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 
 - feat: add "Add File Association" command to dynamically add file patterns to Streamer Mode protection
 - feat: add "Remove File Association" command to remove file patterns from protection
+- feat: migrate from ESLint and Prettier to BiomeJS for linting and formatting
+
+**Full Changelog**: https://github.com/staciax/vscode-streamer-mode-x/compare/v0.0.3...v0.0.8
