@@ -4,7 +4,7 @@ import { Utils } from 'vscode-uri';
 import { StreamerModeEditor } from './editor';
 import Logger from './logger';
 import { StatusBar } from './status-bar';
-import { clearThemeCache, getFileIconUri } from './utils/theme';
+import { clearThemeCache } from './utils/theme';
 // import { generateExcludePattern } from '@/utils/exclude-pattern';
 
 export function activate(context: vscode.ExtensionContext) {
