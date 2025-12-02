@@ -193,47 +193,62 @@ export function activate(context: vscode.ExtensionContext) {
 
                 // Get workspace and global associations
                 const inspected = config.inspect<Record<string, string>>(key);
+                const globalAssociations = inspected?.globalValue ?? {};
+                const workspaceAssociations = inspected?.workspaceValue ?? {};
 
-                const associations: Record<
-                    string,
-                    {
-                        pattern: string;
-                        target: vscode.ConfigurationTarget;
-                        sourceConfig: Record<string, string>;
-                    }
-                > = {};
+                const patternOptions: ({
+                    scope: vscode.ConfigurationTarget;
+                    value: string;
+                } & vscode.QuickPickItem)[] = [];
 
-                // Include global associations
-                if (inspected?.globalValue) {
+                if (Object.keys(globalAssociations).length > 0) {
+                    // add separater
+                    patternOptions.push({
+                        label: 'Global',
+                        alwaysShow: true,
+                        kind: vscode.QuickPickItemKind.Separator,
+                        scope: vscode.ConfigurationTarget.Global,
+                        value: 'global',
+                    });
                     for (const [pattern, value] of Object.entries(
-                        inspected.globalValue,
+                        globalAssociations,
                     )) {
                         if (value === StreamerModeEditor.viewType) {
-                            associations[pattern] = {
-                                pattern: pattern,
-                                target: vscode.ConfigurationTarget.Global,
-                                sourceConfig: inspected.globalValue,
-                            };
+                            patternOptions.push({
+                                label: pattern,
+                                scope: vscode.ConfigurationTarget.Global,
+                                value: pattern,
+                                iconPath: new vscode.ThemeIcon('globe'),
+                            });
                         }
                     }
                 }
 
-                // Include workspace associations
-                if (inspected?.workspaceValue) {
+                if (Object.keys(workspaceAssociations).length > 0) {
+                    // add separater
+                    patternOptions.push({
+                        label: 'Workspace',
+                        alwaysShow: true,
+                        kind: vscode.QuickPickItemKind.Separator,
+                        scope: vscode.ConfigurationTarget.Workspace,
+                        value: 'workspace',
+                    });
+
                     for (const [pattern, value] of Object.entries(
-                        inspected.workspaceValue,
+                        workspaceAssociations,
                     )) {
                         if (value === StreamerModeEditor.viewType) {
-                            associations[pattern] = {
-                                pattern,
-                                target: vscode.ConfigurationTarget.Workspace,
-                                sourceConfig: inspected.workspaceValue,
-                            };
+                            patternOptions.push({
+                                label: pattern,
+                                value: pattern,
+                                scope: vscode.ConfigurationTarget.Workspace,
+                                iconPath: new vscode.ThemeIcon('folder'),
+                            });
                         }
                     }
                 }
 
-                if (Object.keys(associations).length === 0) {
+                if (patternOptions.length === 0) {
                     logger.debug('command: no associations found');
                     vscode.window.showInformationMessage(
                         'No associations found for Streamer Mode',
@@ -241,22 +256,8 @@ export function activate(context: vscode.ExtensionContext) {
                     return;
                 }
                 logger.debug(
-                    `command: found ${Object.keys(associations).length} association(s)`,
+                    `command: found ${patternOptions.length} association(s)`,
                 );
-
-                const patternOptions: vscode.QuickPickItem[] = Object.entries(
-                    associations,
-                ).map(([pattern, assoc]) => ({
-                    label: pattern,
-                    description:
-                        assoc.target === vscode.ConfigurationTarget.Global
-                            ? 'Global'
-                            : 'Workspace',
-                    // iconPath:
-                    //     assoc.target === vscode.ConfigurationTarget.Global
-                    //         ? new vscode.ThemeIcon('globe')
-                    //         : new vscode.ThemeIcon('briefcase')
-                }));
 
                 // Show list to select
                 const selected = await vscode.window.showQuickPick(
@@ -274,41 +275,48 @@ export function activate(context: vscode.ExtensionContext) {
                     return;
                 }
 
-                // Remove selected associations
-                let successCount = 0;
+                let globalRemovedCount = 0;
+                let workspaceRemovedCount = 0;
+
                 for (const item of selected) {
-                    const assoc = associations[item.label];
-                    if (!assoc) {
-                        continue;
-                    }
-
-                    const updated = { ...assoc.sourceConfig };
-                    delete updated[assoc.pattern];
-
-                    try {
-                        await config.update(key, updated, assoc.target);
-                        successCount++;
-                    } catch (e) {
-                        const errorMessage =
-                            e instanceof Error ? e.message : String(e);
-                        vscode.window.showErrorMessage(
-                            `Failed to remove ${assoc.pattern}: ${errorMessage}`,
-                        );
+                    if (item.scope === vscode.ConfigurationTarget.Global) {
+                        delete globalAssociations[item.label];
+                        globalRemovedCount++;
+                    } else if (
+                        item.scope === vscode.ConfigurationTarget.Workspace
+                    ) {
+                        delete workspaceAssociations[item.label];
+                        workspaceRemovedCount++;
                     }
                 }
 
-                if (successCount > 0) {
-                    logger.debug(
-                        `command: removed ${successCount} of ${selected.length} association(s)`,
-                    );
-                    vscode.window.showInformationMessage(
-                        `Removed ${successCount} of ${selected.length} association(s)`,
-                    );
-                } else {
-                    logger.warn(
-                        'command: failed to remove all selected associations',
-                    );
+                await Promise.all([
+                    config.update(
+                        key,
+                        globalAssociations,
+                        vscode.ConfigurationTarget.Global,
+                    ),
+                    config.update(
+                        key,
+                        workspaceAssociations,
+                        vscode.ConfigurationTarget.Workspace,
+                    ),
+                ]);
+
+                const messages: string[] = [];
+                if (globalRemovedCount > 0) {
+                    messages.push(`${globalRemovedCount} global`);
                 }
+                if (workspaceRemovedCount > 0) {
+                    messages.push(`${workspaceRemovedCount} workspace`);
+                }
+
+                vscode.window.showInformationMessage(
+                    `Removed ${messages.join(' and ')} association(s)`,
+                );
+                logger.debug(
+                    `command: removed ${messages.join(' and ')} association(s)`,
+                );
             },
         ),
     );
