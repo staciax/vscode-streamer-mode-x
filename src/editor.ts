@@ -27,18 +27,15 @@ export class StreamerModeEditor implements vscode.CustomTextEditorProvider {
         );
 
         context.subscriptions.push(
-            vscode.commands.registerCommand(
-                'vscode-streamer-mode-x.toggle',
-                () => {
-                    provider.toggle();
-                    vscode.window.showInformationMessage(
-                        `Streamer Mode is ${provider.isEnable ? 'Enabled' : 'Disabled'}`,
-                    );
-                    logger.info(
-                        `editor: toggled streamer mode to ${provider.isEnable}`,
-                    );
-                },
-            ),
+            vscode.commands.registerCommand('streamer-mode.toggle', () => {
+                provider.toggle();
+                vscode.window.showInformationMessage(
+                    `Streamer Mode is ${provider.isEnable ? 'Enabled' : 'Disabled'}`,
+                );
+                logger.info(
+                    `editor: toggled streamer mode to ${provider.isEnable}`,
+                );
+            }),
         );
 
         logger.debug('editor: registered custom editor provider');
@@ -46,7 +43,7 @@ export class StreamerModeEditor implements vscode.CustomTextEditorProvider {
         return providerRegistration;
     }
 
-    public static readonly viewType = 'vscode-streamer-mode-x.editor';
+    public static readonly viewType = 'streamer-mode.editor';
 
     constructor(
         private readonly context: vscode.ExtensionContext,

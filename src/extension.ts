@@ -18,7 +18,7 @@ export function activate(context: vscode.ExtensionContext) {
 
     context.subscriptions.push(
         vscode.commands.registerCommand(
-            'vscode-streamer-mode-x.addAssociation',
+            'streamer-mode.addAssociation',
             async () => {
                 logger.debug('command: addAssociation invoked');
 
@@ -184,7 +184,7 @@ export function activate(context: vscode.ExtensionContext) {
 
     context.subscriptions.push(
         vscode.commands.registerCommand(
-            'vscode-streamer-mode-x.removeAssociation',
+            'streamer-mode.removeAssociation',
             async () => {
                 logger.debug('command: removeAssociation invoked');
 

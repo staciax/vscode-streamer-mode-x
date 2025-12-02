@@ -1,7 +1,7 @@
 {
     "name": "vscode-streamer-mode-x",
     "module": "src/extension.ts",
-    "displayName": "VSCode Streamer Mode X",
+    "displayName": "Streamer Mode X",
     "description": "A Visual Studio Code extension that protects sensitive files",
     "version": "0.0.8",
     "publisher": "staciax",
@@ -44,24 +44,24 @@
     "contributes": {
         "commands": [
             {
-                "command": "vscode-streamer-mode-x.toggle",
+                "command": "streamer-mode.toggle",
                 "title": "Toggle",
                 "category": "Streamer Mode"
             },
             {
-                "command": "vscode-streamer-mode-x.addAssociation",
+                "command": "streamer-mode.addAssociation",
                 "title": "Add File Association",
                 "category": "Streamer Mode"
             },
             {
-                "command": "vscode-streamer-mode-x.removeAssociation",
+                "command": "streamer-mode.removeAssociation",
                 "title": "Remove File Association",
                 "category": "Streamer Mode"
             }
         ],
         "customEditors": [
             {
-                "viewType": "vscode-streamer-mode-x.editor",
+                "viewType": "streamer-mode.editor",
                 "displayName": "Streamer Mode",
                 "selector": [
                     {

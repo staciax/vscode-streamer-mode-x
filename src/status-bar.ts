@@ -16,12 +16,12 @@ export class StatusBar implements vscode.Disposable {
     constructor(logger: Logger) {
         this.logger = logger;
         this.statusBarItem = vscode.window.createStatusBarItem(
-            'vscode-streamer-mode-x.status',
+            'streamer-mode.status',
             vscode.StatusBarAlignment.Left,
             -1,
         );
         this.statusBarItem.text = '$(check) Streamer Mode';
-        this.statusBarItem.command = 'vscode-streamer-mode-x.toggle';
+        this.statusBarItem.command = 'streamer-mode.toggle';
         this.show();
 
         this.logger.debug('status bar: initialized');
