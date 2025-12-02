@@ -1,4 +1,4 @@
-# vscode-streamer-mode-x
+# streamer-mode-x
 
 [![Visual Studio Marketplace](https://img.shields.io/visual-studio-marketplace/v/staciax.vscode-streamer-mode-x?label=Visual%20Studio%20Marketplace&labelColor=374151&color=60a5fa)](https://marketplace.visualstudio.com/items?itemName=staciax.vscode-streamer-mode-x)
 
