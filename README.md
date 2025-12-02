@@ -1,5 +1,7 @@
 # vscode-streamer-mode-x
 
+[![Visual Studio Marketplace](https://img.shields.io/visual-studio-marketplace/v/staciax.vscode-streamer-mode-x?label=Visual%20Studio%20Marketplace&labelColor=374151&color=60a5fa)](https://marketplace.visualstudio.com/items?itemName=staciax.vscode-streamer-mode-x)
+
 A Visual Studio Code extension that protects sensitive files like `.env`, especially useful while streaming your screen.
 
 <!-- When you try to open a protected file, **a warning screen** will appear instead of showing the file content. You can either **open the file anyway** or **close the warning**, keeping your secrets safe from accidental leaks during streams or presentations. -->
