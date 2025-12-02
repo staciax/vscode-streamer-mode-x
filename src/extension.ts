@@ -5,7 +5,6 @@ import { StreamerModeEditor } from './editor';
 import Logger from './logger';
 import { StatusBar } from './status-bar';
 import { clearThemeCache } from './utils/theme';
-// import { generateExcludePattern } from '@/utils/exclude-pattern';
 
 export function activate(context: vscode.ExtensionContext) {
     const logger = new Logger('VSCode Streamer Mode');
@@ -313,5 +312,5 @@ export function activate(context: vscode.ExtensionContext) {
 
 export function deactivate() {
     // Clear icon theme cache
-    clearThemeCache();
+    // clearThemeCache();
 }
