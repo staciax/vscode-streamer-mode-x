@@ -1,12 +1,10 @@
-import path from 'node:path';
-
-import vscode from 'vscode';
+import vscode, { workspace } from 'vscode';
+import { Utils } from 'vscode-uri';
 
 import { StreamerModeEditor } from './editor';
 import Logger from './logger';
 import { StatusBar } from './status-bar';
 import { clearThemeCache, getFileIconUri } from './utils/theme';
-
 // import { generateExcludePattern } from '@/utils/exclude-pattern';
 
 export function activate(context: vscode.ExtensionContext) {
@@ -26,130 +24,74 @@ export function activate(context: vscode.ExtensionContext) {
             async () => {
                 logger.debug('command: addAssociation invoked');
 
-                const editor = vscode.window.activeTextEditor;
-                const document = editor?.document;
+                const config = vscode.workspace.getConfiguration();
 
-                let selectedFileUri: vscode.Uri;
+                const workspaceFolder =
+                    workspace.workspaceFolders &&
+                    workspace.workspaceFolders.length > 0
+                        ? workspace.workspaceFolders[0]
+                        : undefined;
 
-                if (
-                    document?.uri.scheme === 'file' ||
-                    document?.uri.scheme.startsWith('vscode-notebook')
-                ) {
-                    selectedFileUri = vscode.Uri.file(document.uri.fsPath);
-                } else {
-                    if (!vscode.workspace.workspaceFolders?.length) {
-                        return;
-                    }
-                    // const excludePattern = await generateExcludePattern();
+                const simpleDialogEnabled = vscode.workspace
+                    .getConfiguration('files.simpleDialog')
+                    .get<boolean>('enable');
 
-                    // const files2: vscode.Uri[] = [];
-                    // console.log('Generated exclude pattern:', excludePattern);
+                let selectedUris: vscode.Uri[] | undefined;
 
-                    // if (vscode.workspace.workspaceFolders.length === 1) {
-                    //     // const folder: vscode.WorkspaceFolder =
-                    //     //     vscode.workspace.workspaceFolders[0];
-
-                    //     for (const folder of vscode.workspace
-                    //         .workspaceFolders) {
-                    //         const folderFiles =
-                    //             await vscode.workspace.findFiles(
-                    //                 new vscode.RelativePattern(folder, '**/*')
-                    //                 // excludePattern,
-                    //                 // 100 // limit to first 100 files
-                    //             );
-                    //         files2.push(...folderFiles);
-                    //     }
-                    // } else {
-                    //     console.log('Multiple workspace folders');
-                    // }
-
-                    const files = await vscode.workspace.findFiles(
-                        '**/*',
-                        // excludePattern,
-                        // 100 // limit to first 100 files
-                    );
-
-                    if (files.length === 0) {
-                        vscode.window.showErrorMessage(
-                            'No files found in workspace',
+                try {
+                    // Enable simple dialog if not already enabled
+                    if (!simpleDialogEnabled) {
+                        await config.update(
+                            'files.simpleDialog.enable',
+                            true,
+                            vscode.ConfigurationTarget.Global,
                         );
-                        return;
                     }
 
-                    const fileItems: (vscode.QuickPickItem & {
-                        label: string;
-                        description: string;
-                        iconPath: vscode.ThemeIcon | vscode.Uri;
-                        uri: vscode.Uri;
-                    })[] = [];
-
-                    const sortedFiles = files.sort((a, b) =>
-                        a.fsPath.localeCompare(b.fsPath),
-                    );
-
-                    for (const file of sortedFiles) {
-                        const basename = path.basename(file.fsPath);
-                        const relativePath =
-                            vscode.workspace.asRelativePath(file);
-                        const iconUri = await getFileIconUri(file.fsPath);
-                        fileItems.push({
-                            label: basename,
-                            description: relativePath,
-                            iconPath: iconUri ? iconUri : vscode.ThemeIcon.File,
-                            uri: file,
-                        });
-                    }
-
-                    const pick = await vscode.window.showQuickPick(fileItems, {
-                        placeHolder: 'Select files to add association',
-                        matchOnDescription: true,
-                        // canPickMany: true,
+                    selectedUris = await vscode.window.showOpenDialog({
+                        defaultUri: workspaceFolder?.uri,
+                        canSelectFiles: true,
+                        canSelectFolders: false,
+                        canSelectMany: false,
+                        openLabel: 'Select',
+                        filters: {
+                            'Text Files': ['txt'],
+                            'All Files': ['*'],
+                        },
+                        title: 'Select a file to add association',
                     });
-
-                    if (!pick) {
-                        return;
-                    }
-
-                    selectedFileUri = pick.uri;
+                } finally {
+                    // Restore simple dialog setting
+                    await config.update(
+                        'files.simpleDialog.enable',
+                        simpleDialogEnabled,
+                        vscode.ConfigurationTarget.Global,
+                    );
                 }
 
-                // console.log('selectedFileUri:', selectedFileUri);
+                if (!selectedUris || selectedUris.length === 0) {
+                    return;
+                }
 
-                // if (!editor) {
-                //     logger.debug('command: no active editor');
-                //     vscode.window.showErrorMessage('No active editor');
-                //     return;
-                // }
+                const selectedFileUri: vscode.Uri = selectedUris[0];
 
-                logger.debug(
-                    `command: adding association for ${selectedFileUri.fsPath}`,
-                );
-
-                const base = path.basename(selectedFileUri.fsPath);
-                const ext = path.extname(base); // .toLowerCase();
+                const extname = Utils.extname(selectedFileUri);
+                const basename = Utils.basename(selectedFileUri);
                 const isDotfile =
-                    base.startsWith('.') && base.lastIndexOf('.') === 0;
+                    basename.startsWith('.') && basename.lastIndexOf('.') === 0;
 
-                // Build pattern options
                 const patternOptions: vscode.QuickPickItem[] = [];
-                if (ext && !isDotfile) {
+                if (extname && !isDotfile) {
                     patternOptions.push({
-                        // label: `Extension`,
-                        // description: `*${ext}`,
-                        label: `Extension (*${ext})`,
+                        label: `Extension (*${extname})`,
                         description: 'Match files by extension',
                         iconPath: new vscode.ThemeIcon('regex'),
                     });
                 }
 
-                // const iconUri = await getFileIconUri(selectedFileUri.fsPath);
-
                 patternOptions.push({
-                    // label: `File`,
-                    // description: `${base}`,
-                    label: `File (${base})`,
+                    label: `File (${basename})`,
                     description: 'Exact file name match',
-                    // iconPath: iconUri ? iconUri : vscode.ThemeIcon.File
                     iconPath: vscode.ThemeIcon.File,
                 });
 
@@ -164,23 +106,32 @@ export function activate(context: vscode.ExtensionContext) {
                 }
 
                 const pattern =
-                    selectedPattern.label.startsWith('Extension') && ext
-                        ? `*${ext}`
-                        : base;
+                    selectedPattern.label.startsWith('Extension') && extname
+                        ? `*${extname}`
+                        : basename;
 
                 // Select scope
                 const selectedScope = await vscode.window.showQuickPick(
-                    ['Workspace', 'Global'],
-                    { placeHolder: 'Add to which settings scope?' },
+                    [
+                        {
+                            label: 'Workspace',
+                            value: 'workspace',
+                        },
+                        {
+                            label: 'Global',
+                            value: 'global',
+                        },
+                    ],
+                    {
+                        placeHolder: 'Add to which settings scope?',
+                    },
                 );
+
                 if (!selectedScope) {
                     return;
                 }
 
-                if (
-                    selectedScope === 'Workspace' &&
-                    !vscode.workspace.workspaceFolders
-                ) {
+                if (selectedScope.value === 'workspace' && !workspaceFolder) {
                     vscode.window.showErrorMessage(
                         'No workspace open to update workspace settings',
                     );
@@ -188,12 +139,11 @@ export function activate(context: vscode.ExtensionContext) {
                 }
 
                 const target =
-                    selectedScope === 'Workspace'
+                    selectedScope.value === 'workspace'
                         ? vscode.ConfigurationTarget.Workspace
                         : vscode.ConfigurationTarget.Global;
 
                 // Update configuration
-                const config = vscode.workspace.getConfiguration();
                 const key = 'workbench.editorAssociations';
                 const inspected = config.inspect<Record<string, string>>(key);
 
