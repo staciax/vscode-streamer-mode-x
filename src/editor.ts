@@ -111,37 +111,6 @@ export class StreamerModeEditor implements vscode.CustomTextEditorProvider {
                     break;
             }
         });
-
-        function updateWebview() {
-            webviewPanel.webview.postMessage({
-                type: 'update',
-                text: document.getText(),
-            });
-        }
-
-        // Hook up event handlers so that we can synchronize the webview with the text document.
-        //
-        // The text document acts as our model, so we have to sync change in the document to our
-        // editor and sync changes in the editor back to the document.
-        //
-        // Remember that a single text document can also be shared between multiple custom
-        // editors (this happens for example when you split a custom editor)
-
-        const changeDocumentSubscription =
-            vscode.workspace.onDidChangeTextDocument(
-                (e: vscode.TextDocumentChangeEvent) => {
-                    if (e.document.uri.fsPath === document.uri.fsPath) {
-                        updateWebview();
-                    }
-                },
-            );
-
-        // Make sure we get rid of the listener when our editor is closed.
-        webviewPanel.onDidDispose(() => {
-            changeDocumentSubscription.dispose();
-        });
-
-        updateWebview();
     }
 
     /**
