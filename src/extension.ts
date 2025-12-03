@@ -24,7 +24,7 @@ export async function activate(context: vscode.ExtensionContext) {
     const pollingService = new PollingService(editor, logger);
 
     // Check immediately
-    pollingService.check();
+    await pollingService.check();
     pollingService.start();
 
     context.subscriptions.push(pollingService);
