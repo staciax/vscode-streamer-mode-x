@@ -6,7 +6,7 @@ import { getConfig, getSettings } from './settings';
 
 export class FileDecorator implements vscode.FileDecorationProvider {
     private readonly _onDidChangeFileDecorations = new vscode.EventEmitter<
-        vscode.Uri | vscode.Uri[]
+        vscode.Uri | vscode.Uri[] | undefined
     >();
     readonly onDidChangeFileDecorations =
         this._onDidChangeFileDecorations.event;
@@ -35,8 +35,8 @@ export class FileDecorator implements vscode.FileDecorationProvider {
     public refresh(_changedKeys?: string[]) {
         // TODO: Use changedKeys to optimize refresh by only updating affected files
         this.loadHiddenPatterns();
-        // biome-ignore lint/suspicious/noExplicitAny: VS Code API requires passing undefined to fire for all resources
-        this._onDidChangeFileDecorations.fire(undefined as any);
+
+        this._onDidChangeFileDecorations.fire(undefined);
     }
 
     async provideFileDecoration(
