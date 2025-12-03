@@ -1,7 +1,7 @@
 import vscode from 'vscode';
 
-import { getConfig, getSettings } from './settings';
 import { StreamerModeEditor } from './editor';
+import { getConfig, getSettings } from './settings';
 
 export class FileDecorator implements vscode.FileDecorationProvider {
     private readonly _onDidChangeFileDecorations = new vscode.EventEmitter<
