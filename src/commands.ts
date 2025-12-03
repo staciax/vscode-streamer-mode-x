@@ -312,44 +312,61 @@ export async function toggleHideFile(
     const isCurrentlyHidden = updated[pattern] === StreamerModeEditor.viewType;
 
     if (isCurrentlyHidden) {
-        // Unhide
         delete updated[pattern];
+    } else {
+        updated[pattern] = StreamerModeEditor.viewType;
+    }
 
-        try {
-            await updateConfig(
-                'workbench',
-                'editorAssociations',
-                updated,
-                vscode.ConfigurationTarget.Workspace,
-            );
-            fileDecorator.refresh();
+    try {
+        await updateConfig(
+            'workbench',
+            'editorAssociations',
+            updated,
+            vscode.ConfigurationTarget.Workspace,
+        );
+
+        if (isCurrentlyHidden) {
             logger.debug(`Unhidden: ${pattern}`);
             vscode.window.showInformationMessage(`Unhidden: ${pattern}`);
-        } catch (e) {
-            const errorMessage = e instanceof Error ? e.message : String(e);
-            logger.error(`Failed to unhide: ${errorMessage}`);
-            vscode.window.showErrorMessage(`Failed to unhide: ${errorMessage}`);
-        }
-    } else {
-        // Hide
-        updated[pattern] = StreamerModeEditor.viewType;
-
-        try {
-            await updateConfig(
-                'workbench',
-                'editorAssociations',
-                updated,
-                vscode.ConfigurationTarget.Workspace,
-            );
-            fileDecorator.refresh();
+        } else {
             logger.debug(`Hidden: ${pattern}`);
             vscode.window.showInformationMessage(
                 `Hidden in Streamer Mode: ${pattern}`,
             );
-        } catch (e) {
-            const errorMessage = e instanceof Error ? e.message : String(e);
-            logger.error(`Failed to hide: ${errorMessage}`);
-            vscode.window.showErrorMessage(`Failed to hide: ${errorMessage}`);
+        }
+    } catch (e) {
+        const errorMessage = e instanceof Error ? e.message : String(e);
+        const action = isCurrentlyHidden ? 'unhide' : 'hide';
+        logger.error(`Failed to ${action}: ${errorMessage}`);
+        vscode.window.showErrorMessage(`Failed to ${action}: ${errorMessage}`);
+        return;
+    }
+
+    fileDecorator.refresh();
+
+    // Refresh if active
+    const activeTab = vscode.window.tabGroups.activeTabGroup.activeTab;
+    if (activeTab) {
+        const input = activeTab.input;
+        let match = false;
+
+        if (
+            input instanceof vscode.TabInputText &&
+            input.uri.fsPath === uri.fsPath
+        ) {
+            match = true;
+        } else if (
+            input instanceof vscode.TabInputCustom &&
+            input.uri.fsPath === uri.fsPath
+        ) {
+            match = true;
+        }
+
+        if (match) {
+            await vscode.commands.executeCommand(
+                'workbench.action.closeActiveEditor',
+            );
+            await vscode.commands.executeCommand('vscode.open', uri);
         }
     }
 }
