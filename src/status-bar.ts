@@ -20,7 +20,7 @@ export class StatusBar implements vscode.Disposable {
             vscode.StatusBarAlignment.Left,
             -1,
         );
-        this.statusBarItem.text = '$(check) Streamer Mode';
+        this.statusBarItem.text = '$(lock) Streamer Mode';
         this.statusBarItem.command = 'streamer-mode.toggle';
         this.show();
 
@@ -29,7 +29,7 @@ export class StatusBar implements vscode.Disposable {
 
     public update(enable: boolean): void {
         this.statusBarItem.text = enable
-            ? '$(check) Streamer Mode'
+            ? '$(lock) Streamer Mode'
             : '$(x) Streamer Mode';
     }
 
