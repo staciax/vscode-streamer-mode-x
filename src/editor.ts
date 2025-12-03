@@ -1,6 +1,7 @@
 import vscode from 'vscode';
 
 import type Logger from './logger';
+import { getConfig, updateConfig } from './settings';
 import type { StatusBar } from './status-bar';
 import { getNonce } from './utils/nonce';
 
@@ -13,7 +14,9 @@ export class StreamerModeEditor implements vscode.CustomTextEditorProvider {
     /**
      * Whether streamer mode is enabled
      */
-    private isEnable = true;
+    public get isEnable(): boolean {
+        return getConfig('streamer-mode', 'enabled', true);
+    }
 
     /**
      * Cached html for the webview
@@ -24,7 +27,7 @@ export class StreamerModeEditor implements vscode.CustomTextEditorProvider {
         context: vscode.ExtensionContext,
         statusBar: StatusBar,
         logger: Logger,
-    ): vscode.Disposable {
+    ): StreamerModeEditor {
         const provider = new StreamerModeEditor(context, statusBar, logger);
         const providerRegistration = vscode.window.registerCustomEditorProvider(
             StreamerModeEditor.viewType,
@@ -43,9 +46,11 @@ export class StreamerModeEditor implements vscode.CustomTextEditorProvider {
             }),
         );
 
+        context.subscriptions.push(providerRegistration);
+
         logger.debug('editor: registered custom editor provider');
 
-        return providerRegistration;
+        return provider;
     }
 
     constructor(
@@ -179,8 +184,15 @@ export class StreamerModeEditor implements vscode.CustomTextEditorProvider {
     `;
     }
 
-    private toggle() {
-        this.isEnable = !this.isEnable;
-        this.statusBar.update(this.isEnable);
+    public async toggle() {
+        await this.setEnable(!this.isEnable);
+    }
+
+    public async setEnable(enable: boolean) {
+        if (this.isEnable === enable) {
+            return;
+        }
+        await updateConfig('streamer-mode', 'enabled', enable);
+        this.statusBar.update(enable);
     }
 }
