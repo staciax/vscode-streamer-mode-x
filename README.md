@@ -97,7 +97,7 @@ You can quickly hide or unhide the current file:
 4. Run in debug mode:
    - Open the project in VS Code
    - Press `F5` to launch a new Extension Development Host window
-่
+
 ## License
 
 This project is licensed under the GNUv3 License - see the [LICENSE](LICENSE.md) file for details.
