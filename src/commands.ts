@@ -3,9 +3,30 @@ import { Utils } from 'vscode-uri';
 
 import { StreamerModeEditor } from './editor';
 import type Logger from './logger';
-import { updateConfig } from './settings';
+import { getSettings, updateConfig } from './settings';
 
-export async function toggleFileProtection(uri: vscode.Uri, logger: Logger) {
+export async function toggleFileProtection(
+    uri: vscode.Uri | undefined,
+    logger: Logger,
+) {
+    const settings = getSettings();
+
+    if (!settings.enabled) {
+        vscode.window.showInformationMessage(
+            'Streamer Mode is disabled. Enable it to use file protection.',
+        );
+        return;
+    }
+
+    if (!uri) {
+        uri = vscode.window.activeTextEditor?.document.uri;
+    }
+
+    if (!uri) {
+        vscode.window.showInformationMessage('No file selected');
+        return;
+    }
+
     const stat = await vscode.workspace.fs.stat(uri);
     const isFolder = stat.type === vscode.FileType.Directory;
 
