@@ -139,6 +139,14 @@
                     "default": 30,
                     "description": "Polling interval in seconds when Streamer Mode is disabled."
                 },
+                "streamer-mode.autoDetected.additionalApps": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "default": [],
+                    "description": "List of additional process names to detect as streaming apps."
+                },
                 "streamer-mode.enabled": {
                     "type": "boolean",
                     "default": true,
