@@ -57,6 +57,11 @@
                 "command": "streamer-mode.removeAssociation",
                 "title": "Remove File Association",
                 "category": "Streamer Mode"
+            },
+            {
+                "command": "vscode-streamer-mode-x.toggleHideFile",
+                "title": "Toggle Streamer Mode Hide",
+                "category": "Streamer Mode"
             }
         ],
         "customEditors": [
@@ -70,7 +75,40 @@
                 ],
                 "priority": "default"
             }
-        ]
+        ],
+        "menus": {
+            "explorer/context": [
+                {
+                    "command": "vscode-streamer-mode-x.toggleHideFile",
+                    "group": "2_workspace@1"
+                }
+            ]
+        },
+        "configuration": {
+            "title": "Streamer Mode",
+            "properties": {
+                "streamer-mode.autoDetected.enable": {
+                    "type": "boolean",
+                    "default": true,
+                    "description": "Automatically enable streamer mode when streaming software is detected."
+                },
+                "streamer-mode.autoDetected.interval.active": {
+                    "type": "number",
+                    "default": 60,
+                    "description": "Polling interval in seconds when Streamer Mode is enabled."
+                },
+                "streamer-mode.autoDetected.interval.inactive": {
+                    "type": "number",
+                    "default": 30,
+                    "description": "Polling interval in seconds when Streamer Mode is disabled."
+                },
+                "streamer-mode.enabled": {
+                    "type": "boolean",
+                    "default": true,
+                    "description": "Enable or disable Streamer Mode."
+                }
+            }
+        }
     },
     "scripts": {
         "vscode:prepublish": "bun run package",
@@ -85,6 +123,7 @@
         "format": "biome check --write . && biome format . --write"
     },
     "dependencies": {
+        "find-process": "~2.0.0",
         "vscode-uri": "~3.1.0"
     },
     "devDependencies": {
