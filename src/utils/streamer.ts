@@ -21,7 +21,7 @@ export async function detectStreamingApps(
             allApps.some((app) => proc.name.toLowerCase().includes(app)),
         );
     } catch (error) {
-        console.log(`Failed to detect: ${error}`);
+        console.log(`Failed to detect streaming apps: ${error}`);
         return false;
     }
 }
