@@ -32,20 +32,40 @@ export class FileDecorator implements vscode.FileDecorationProvider {
 
     public refresh() {
         this.loadHiddenPatterns();
+        // biome-ignore lint/suspicious/noExplicitAny: <explanation>
         this._onDidChangeFileDecorations.fire(undefined as any);
     }
 
-    provideFileDecoration(
+    async provideFileDecoration(
         uri: vscode.Uri,
-    ): vscode.ProviderResult<vscode.FileDecoration> {
+        token: vscode.CancellationToken,
+    ): Promise<vscode.FileDecoration | undefined> {
+        const cancelPromise = new Promise<undefined>((resolve) => {
+            token.onCancellationRequested(() => resolve(undefined));
+        });
+
+        const providePromise = this._provideFileDecoration(uri);
+
+        return Promise.any([cancelPromise, providePromise]);
+    }
+
+    private async _provideFileDecoration(
+        uri: vscode.Uri,
+    ): Promise<vscode.FileDecoration | undefined> {
         const basename = vscode.workspace.asRelativePath(uri);
+        const shouldPropagate = getConfig<boolean>(
+            'streamer-mode',
+            'decoration.propagate',
+            true,
+        );
 
         for (const pattern of this.hiddenPatterns) {
             if (this.matchPattern(basename, pattern)) {
                 return {
-                    // badge: 'S',
+                    badge: 'S',
                     tooltip: 'Hidden in Streamer Mode',
                     color: new vscode.ThemeColor('streamerMode.hiddenFile'),
+                    propagate: shouldPropagate,
                 };
             }
         }
