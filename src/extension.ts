@@ -1,10 +1,6 @@
 import vscode from 'vscode';
 
-import {
-    addAssociation,
-    removeAssociation,
-    toggleFileProtection,
-} from './commands';
+import { toggleFileProtection } from './commands';
 import { StreamerModeEditor } from './editor';
 import { FileDecorator } from './file-decorator';
 import {
@@ -48,18 +44,6 @@ export async function activate(context: vscode.ExtensionContext) {
             );
             handleEditorAssociations(e);
         }),
-    );
-
-    context.subscriptions.push(
-        vscode.commands.registerCommand('streamer-mode.addAssociation', () =>
-            addAssociation(logger),
-        ),
-    );
-
-    context.subscriptions.push(
-        vscode.commands.registerCommand('streamer-mode.removeAssociation', () =>
-            removeAssociation(logger),
-        ),
     );
 
     context.subscriptions.push(

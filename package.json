@@ -75,16 +75,6 @@
                 "category": "Streamer Mode"
             },
             {
-                "command": "streamer-mode.addAssociation",
-                "title": "Add File Association",
-                "category": "Streamer Mode"
-            },
-            {
-                "command": "streamer-mode.removeAssociation",
-                "title": "Remove File Association",
-                "category": "Streamer Mode"
-            },
-            {
                 "command": "vscode-streamer-mode-x.toggleFileProtection",
                 "title": "Toggle File Protection",
                 "category": "Streamer Mode",
