@@ -13,6 +13,7 @@ A Visual Studio Code extension that protects sensitive files like `.env`, especi
 
 The extension for VS Code is available on the **Visual Studio Marketplace**
 - [Visual Studio Marketplace](https://marketplace.visualstudio.com/items?itemName=staciax.vscode-streamer-mode-x)
+- [Open VSX Registry](https://open-vsx.org/extension/staciax/vscode-streamer-mode-x)
 
 ## Features
 
