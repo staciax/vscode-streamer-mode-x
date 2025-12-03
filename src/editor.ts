@@ -18,11 +18,6 @@ export class StreamerModeEditor implements vscode.CustomTextEditorProvider {
         return getSettings().enabled;
     }
 
-    /**
-     * Cached html for the webview
-     */
-    private cachedHtml: string | null = null;
-
     public static register(
         context: vscode.ExtensionContext,
         statusBar: StatusBar,
@@ -88,11 +83,9 @@ export class StreamerModeEditor implements vscode.CustomTextEditorProvider {
             enableScripts: true,
         };
 
-        if (!this.cachedHtml) {
-            this.cachedHtml = this.getHtmlForWebview(webviewPanel.webview);
-        }
-
-        webviewPanel.webview.html = this.cachedHtml;
+        webviewPanel.webview.html = this.getHtmlForWebview(
+            webviewPanel.webview,
+        );
 
         type WebviewMessage = { type: 'open' } | { type: 'close' };
         // | { type: 'ready' };
