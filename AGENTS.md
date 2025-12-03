@@ -6,13 +6,20 @@ This is a VSCode extension that protects sensitive files (`.env`, certificates, 
 
 ## Repo Structure & Important Files
 
+## Repo Structure & Important Files
+
 - `src/`: Main extension source code
   - `extension.ts`: Main activation file
+  - `commands.ts`: Command implementations
   - `editor.ts`: Custom editor provider for displaying warning overlay
+  - `file-decorator.ts`: File decoration provider (badges/colors)
   - `status-bar.ts`: Status bar item management
   - `logger.ts`: Logging utilities
+  - `polling.ts`: Polling service for auto-detection
+  - `settings.ts`: Configuration management (Update this when adding new settings!)
   - `utils/`: Utility functions
     - `nonce.ts`: Nonce generation for CSP
+    - `streamer.ts`: Streamer app detection logic
   - `test/`: Test files
     - `extension.test.ts`: Extension tests
 - `media/`: Static assets for the warning overlay
