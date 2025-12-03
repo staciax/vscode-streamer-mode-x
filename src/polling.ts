@@ -1,19 +1,16 @@
 import vscode from 'vscode';
 
-import type { StreamerModeEditor } from './editor';
 import type Logger from './logger';
-import { getSettings } from './settings';
+import { getSettings, updateConfig } from './settings';
 import { detectStreamingApps } from './utils/streamer';
 
 export class PollingService implements vscode.Disposable {
     private interval: NodeJS.Timeout | undefined;
-    private readonly editor: StreamerModeEditor;
     private readonly logger: Logger;
 
     private disposables: vscode.Disposable[] = [];
 
-    constructor(editor: StreamerModeEditor, logger: Logger) {
-        this.editor = editor;
+    constructor(logger: Logger) {
         this.logger = logger;
 
         vscode.workspace.onDidChangeConfiguration(
@@ -37,7 +34,6 @@ export class PollingService implements vscode.Disposable {
 
         const settings = getSettings();
 
-        // Check if auto-detection is enabled
         if (!settings.autoDetected.enable) {
             return;
         }
@@ -46,7 +42,7 @@ export class PollingService implements vscode.Disposable {
         const inactiveInterval = settings.autoDetected.interval.inactive;
 
         const delay =
-            (this.editor.isEnable ? activeInterval : inactiveInterval) * 1000;
+            (settings.enabled ? activeInterval : inactiveInterval) * 1000;
 
         this.interval = setInterval(() => this.check(), delay);
         this.logger.debug(`polling: interval set to ${delay}ms`);
@@ -60,18 +56,19 @@ export class PollingService implements vscode.Disposable {
     }
 
     public async check() {
+        const settings = getSettings();
+
         // Double check config in case it changed, but start() already handles the interval
-        if (!getSettings().autoDetected.enable) {
+        if (!settings.autoDetected.enable) {
             return;
         }
 
         try {
-            const settings = getSettings();
             const isStreaming = await detectStreamingApps(
                 settings.autoDetected.additionalApps,
             );
-            if (isStreaming && !this.editor.isEnable) {
-                await this.editor.setEnable(true);
+            if (isStreaming && !settings.enabled) {
+                await updateConfig('streamer-mode', 'enabled', true);
                 vscode.window.showInformationMessage(
                     'Streamer Mode enabled automatically (Streaming app detected)',
                 );

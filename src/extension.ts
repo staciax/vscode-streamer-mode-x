@@ -21,7 +21,7 @@ export async function activate(context: vscode.ExtensionContext) {
     const editor = StreamerModeEditor.register(context, statusBar, logger);
     statusBar.update(editor.isEnable);
 
-    const pollingService = new PollingService(editor, logger);
+    const pollingService = new PollingService(logger);
 
     // Check immediately
     await pollingService.check();
