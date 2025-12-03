@@ -78,7 +78,7 @@ You can quickly hide or unhide the current file:
 
 - [Bun](https://bun.sh/) 1.3+
 - [Node.js](https://nodejs.org/) 24+ (recommended)
-- VS Code `^1.95.0`
+- VSCode: 1.95.0+
 
 ### Installation
 
