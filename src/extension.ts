@@ -43,7 +43,7 @@ export async function activate(context: vscode.ExtensionContext) {
 
     context.subscriptions.push(
         vscode.commands.registerCommand(
-            'vscode-streamer-mode-x.toggleFileProtection',
+            'streamer-mode.toggleFileProtection',
             (uri: vscode.Uri) => toggleFileProtection(uri, logger),
         ),
     );

@@ -75,7 +75,7 @@
                 "category": "Streamer Mode"
             },
             {
-                "command": "vscode-streamer-mode-x.toggleFileProtection",
+                "command": "streamer-mode.toggleFileProtection",
                 "title": "Toggle File Protection",
                 "category": "Streamer Mode",
                 "icon": "$(eye)"
@@ -96,13 +96,13 @@
         "menus": {
             "explorer/context": [
                 {
-                    "command": "vscode-streamer-mode-x.toggleFileProtection",
+                    "command": "streamer-mode.toggleFileProtection",
                     "group": "2_workspace@1"
                 }
             ],
             "editor/title": [
                 {
-                    "command": "vscode-streamer-mode-x.toggleFileProtection",
+                    "command": "streamer-mode.toggleFileProtection",
                     "group": "navigation",
                     "when": "resourceLangId"
                 }
@@ -110,7 +110,7 @@
         },
         "keybindings": [
             {
-                "command": "vscode-streamer-mode-x.toggleFileProtection",
+                "command": "streamer-mode.toggleFileProtection",
                 "key": "ctrl+alt+p",
                 "mac": "cmd+alt+p",
                 "when": "editorTextFocus"
