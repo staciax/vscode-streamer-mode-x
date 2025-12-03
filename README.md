@@ -37,7 +37,7 @@ The extension automatically protects the following file types:
 You can enable/disable the protection in multiple ways:
 
 1. **Status Bar**: Click on the "Streamer Mode" indicator in the status bar
-2. **Keybinding**: Press `Ctrl+Cmd+S` (Mac) or `Ctrl+Alt+S` (Windows/Linux)
+2. **Keybinding**: Press `Cmd+Option+S` (Mac) or `Ctrl+Alt+S` (Windows/Linux)
 3. **Command Palette**: 
    - Open the command palette (Ctrl+Shift+P / Cmd+Shift+P)
    - Type "Toggle Streamer Mode"
@@ -64,7 +64,7 @@ The extension can automatically enable Streamer Mode when it detects streaming s
 You can quickly hide or unhide the current file:
 
 1. **Editor Title Menu**: Click the **Eye Icon** in the top-right corner of the editor.
-2. **Keybinding**: Press `Ctrl+Cmd+H` (Mac) or `Ctrl+Alt+H` (Windows/Linux).
+2. **Keybinding**: Press `Cmd+Option+P` (Mac) or `Ctrl+Alt+P` (Windows/Linux).
 3. **Context Menu**: Right-click a file in Explorer and select "Toggle File Protection".
 
 ## Development

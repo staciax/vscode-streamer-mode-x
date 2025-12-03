@@ -3,11 +3,11 @@
 ## Hiding Files
 1. **Right-click** a file in Explorer and select **Toggle File Protection**.
 2. Or use the **Eye Icon** in the editor title bar.
-3. Or press `Ctrl+Cmd+H` (Mac) / `Ctrl+Alt+H` (Win).
+3. Or press `Cmd+Option+P` (Mac) / `Ctrl+Alt+P` (Win).
 
 ## Global Toggle
 - Click the **Streamer Mode** status bar item.
-- Or press `Ctrl+Cmd+S` (Mac) / `Ctrl+Alt+S` (Win).
+- Or press `Cmd+Option+S` (Mac) / `Ctrl+Alt+S` (Win).
 
 ## Auto-Detection
 - The extension automatically detects streaming apps like OBS, Streamlabs, and XSplit.

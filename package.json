@@ -111,14 +111,14 @@
         "keybindings": [
             {
                 "command": "vscode-streamer-mode-x.toggleFileProtection",
-                "key": "ctrl+alt+h",
-                "mac": "ctrl+cmd+h",
+                "key": "ctrl+alt+p",
+                "mac": "cmd+alt+p",
                 "when": "editorTextFocus"
             },
             {
                 "command": "streamer-mode.toggle",
                 "key": "ctrl+alt+s",
-                "mac": "ctrl+cmd+s"
+                "mac": "cmd+alt+s"
             }
         ],
         "configuration": {
