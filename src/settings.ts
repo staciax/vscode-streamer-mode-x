@@ -9,6 +9,9 @@ export interface StreamerModeSettings {
             inactive: number;
         };
     };
+    decoration: {
+        propagate: boolean;
+    };
 }
 
 export function getSettings(): StreamerModeSettings {
@@ -24,6 +27,9 @@ export function getSettings(): StreamerModeSettings {
                     30,
                 ),
             },
+        },
+        decoration: {
+            propagate: config.get<boolean>('decoration.propagate', true),
         },
     };
 }
