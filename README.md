@@ -43,34 +43,59 @@ You can enable/disable the protection in multiple ways:
 
 When disabled, protected files will open normally without the warning screen.
 
+### Auto-Detection
+
+The extension can automatically enable Streamer Mode when it detects streaming software running on your computer.
+
+> [!WARNING]
+> This feature has only been tested on VS Code Version: 1.106.3 (Universal) on MacOS.
+
+- **Supported Apps**: OBS Studio, Streamlabs, XSplit.
+- **Configuration**:
+  - `streamer-mode.autoDetected.enable`: Enable/disable auto-detection (default: `true`).
+  - `streamer-mode.autoDetected.interval.active`: Polling interval when Streamer Mode is enabled (default: `60` seconds).
+  - `streamer-mode.autoDetected.interval.inactive`: Polling interval when Streamer Mode is disabled (default: `30` seconds).
+  - `streamer-mode.autoDetected.additionalApps`: List of additional process names to detect as streaming apps.
+
 ### Hiding/Unhiding Files
 
 You can quickly hide or unhide the current file:
 
 1. **Editor Title Menu**: Click the **Eye Icon** in the top-right corner of the editor.
 2. **Keybinding**: Press `Ctrl+Cmd+H` (Mac) or `Ctrl+Alt+H` (Windows/Linux).
-3. **Context Menu**: Right-click a file in Explorer and select "Toggle Streamer Mode Hide".
+3. **Context Menu**: Right-click a file in Explorer and select "Toggle File Protection".
 
-### Managing File Associations
+## Development
 
-You can customize which files are protected:
-
-1. **Add File Association**: 
-   - Open command palette and select "Streamer Mode: Add File Association"
-   - Choose a file to protect
-   - Select pattern type (by extension or exact filename)
-   - Choose scope (Global or Workspace)
-
-2. **Remove File Association**: 
-   - Open command palette and select "Streamer Mode: Remove File Association"
-   - Select associations to remove from the list
-   - Supports removing multiple associations at once
-
-## Runtime Environment
+### Runtime Environment
 
 > [!WARNING]  
 > This project currently uses [Bun](https://bun.sh/) instead of [Node.js](https://nodejs.org/) as a runtime environment. While it's working in the current state, there are some limitations I've encountered. If you fork or clone this repository, you might face compatibility issues. This is an experimental setup as I explore Bun's capabilities compared to Node.js.
 
+### Prerequisites
+
+- [Bun](https://bun.sh/) 1.3+
+- [Node.js](https://nodejs.org/) 24+ (recommended)
+- VS Code `^1.95.0`
+
+### Installation
+
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/staciax/vscode-streamer-mode-x.git
+   ```
+2. Install dependencies:
+   ```bash
+   bun install
+   ```
+3. Compile the extension:
+   ```bash
+   bun run compile
+   ```
+4. Run in debug mode:
+   - Open the project in VS Code
+   - Press `F5` to launch a new Extension Development Host window
+่
 ## License
 
 This project is licensed under the GNUv3 License - see the [LICENSE](LICENSE.md) file for details.
