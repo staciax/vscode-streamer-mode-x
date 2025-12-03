@@ -1,21 +1,14 @@
 import vscode from 'vscode';
 
-import { addAssociation, removeAssociation } from './commands';
+import { addAssociation, removeAssociation, toggleHideFile } from './commands';
 import { StreamerModeEditor } from './editor';
 import { FileDecorator } from './file-decorator';
 import Logger from './logger';
 import { PollingService } from './polling';
 import { StatusBar } from './status-bar';
-import { detectStreamingApps } from './utils/streamer';
 
 export async function activate(context: vscode.ExtensionContext) {
     const logger = new Logger('VSCode Streamer Mode');
-
-    try {
-        console.log(`Streaming app running: ${await detectStreamingApps()}`);
-    } catch (error) {
-        logger.error(`Failed to check streaming apps: ${error}`);
-    }
 
     logger.debug('extension: activating');
 
@@ -45,7 +38,7 @@ export async function activate(context: vscode.ExtensionContext) {
 
     context.subscriptions.push(pollingService);
 
-    FileDecorator.register(context);
+    const fileDecorator = FileDecorator.register(context);
 
     context.subscriptions.push(
         vscode.commands.registerCommand('streamer-mode.addAssociation', () =>
@@ -62,13 +55,7 @@ export async function activate(context: vscode.ExtensionContext) {
     context.subscriptions.push(
         vscode.commands.registerCommand(
             'vscode-streamer-mode-x.toggleHideFile',
-            async (uri: vscode.Uri) => {
-                if (!uri) {
-                    return;
-                }
-
-                console.log(`Hide file command invoked for: ${uri.fsPath}`);
-            },
+            (uri: vscode.Uri) => toggleHideFile(uri, logger, fileDecorator),
         ),
     );
 

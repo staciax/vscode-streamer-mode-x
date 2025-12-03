@@ -25,7 +25,6 @@ export class PollingService implements vscode.Disposable {
             return;
         }
 
-
         const activeInterval = settings.autoDetected.interval.active;
         const inactiveInterval = settings.autoDetected.interval.inactive;
 

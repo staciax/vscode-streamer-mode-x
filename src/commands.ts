@@ -2,6 +2,7 @@ import vscode, { workspace } from 'vscode';
 import { Utils } from 'vscode-uri';
 
 import { StreamerModeEditor } from './editor';
+import type { FileDecorator } from './file-decorator';
 import type Logger from './logger';
 import { getConfig, updateConfig } from './settings';
 
@@ -277,4 +278,78 @@ export async function removeAssociation(logger: Logger) {
         `Removed ${messages.join(' and ')} association(s)`,
     );
     logger.debug(`command: removed ${messages.join(' and ')} association(s)`);
+}
+
+export async function toggleHideFile(
+    uri: vscode.Uri,
+    logger: Logger,
+    fileDecorator: FileDecorator,
+) {
+    if (!uri) {
+        return;
+    }
+
+    const stat = await vscode.workspace.fs.stat(uri);
+    const isFolder = stat.type === vscode.FileType.Directory;
+
+    const config = vscode.workspace.getConfiguration();
+    const key = 'workbench.editorAssociations';
+
+    let pattern: string;
+    if (isFolder) {
+        const relativePath = vscode.workspace.asRelativePath(uri);
+        pattern = `${relativePath}/**`;
+    } else {
+        const basename = Utils.basename(uri);
+        pattern = basename;
+    }
+
+    const inspected = config.inspect<Record<string, string>>(key);
+    const workspaceValue = inspected?.workspaceValue ?? {};
+    const updated = { ...workspaceValue };
+
+    // Check if already hidden
+    const isCurrentlyHidden = updated[pattern] === StreamerModeEditor.viewType;
+
+    if (isCurrentlyHidden) {
+        // Unhide
+        delete updated[pattern];
+
+        try {
+            await updateConfig(
+                'workbench',
+                'editorAssociations',
+                updated,
+                vscode.ConfigurationTarget.Workspace,
+            );
+            fileDecorator.refresh();
+            logger.debug(`Unhidden: ${pattern}`);
+            vscode.window.showInformationMessage(`Unhidden: ${pattern}`);
+        } catch (e) {
+            const errorMessage = e instanceof Error ? e.message : String(e);
+            logger.error(`Failed to unhide: ${errorMessage}`);
+            vscode.window.showErrorMessage(`Failed to unhide: ${errorMessage}`);
+        }
+    } else {
+        // Hide
+        updated[pattern] = StreamerModeEditor.viewType;
+
+        try {
+            await updateConfig(
+                'workbench',
+                'editorAssociations',
+                updated,
+                vscode.ConfigurationTarget.Workspace,
+            );
+            fileDecorator.refresh();
+            logger.debug(`Hidden: ${pattern}`);
+            vscode.window.showInformationMessage(
+                `Hidden in Streamer Mode: ${pattern}`,
+            );
+        } catch (e) {
+            const errorMessage = e instanceof Error ? e.message : String(e);
+            logger.error(`Failed to hide: ${errorMessage}`);
+            vscode.window.showErrorMessage(`Failed to hide: ${errorMessage}`);
+        }
+    }
 }
