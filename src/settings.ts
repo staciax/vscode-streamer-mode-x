@@ -8,6 +8,7 @@ export interface StreamerModeSettings {
             active: number;
             inactive: number;
         };
+        additionalApps: string[];
     };
     decoration: {
         propagate: boolean;
@@ -27,6 +28,10 @@ export function getSettings(): StreamerModeSettings {
                     30,
                 ),
             },
+            additionalApps: config.get<string[]>(
+                'autoDetected.additionalApps',
+                [],
+            ),
         },
         decoration: {
             propagate: config.get<boolean>('decoration.propagate', true),

@@ -49,7 +49,10 @@ export class PollingService implements vscode.Disposable {
         }
 
         try {
-            const isStreaming = await detectStreamingApps();
+            const settings = getSettings();
+            const isStreaming = await detectStreamingApps(
+                settings.autoDetected.additionalApps,
+            );
             if (isStreaming && !this.editor.isEnable) {
                 await this.editor.setEnable(true);
                 vscode.window.showInformationMessage(
