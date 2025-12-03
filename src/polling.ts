@@ -73,6 +73,12 @@ export class PollingService implements vscode.Disposable {
                     'Streamer Mode enabled automatically (Streaming app detected)',
                 );
                 this.logger.info('polling: auto-enabled streamer mode');
+            } else if (!isStreaming && settings.enabled) {
+                await updateConfig('streamer-mode', 'enabled', false);
+                vscode.window.showInformationMessage(
+                    'Streamer Mode disabled automatically (No streaming app detected)',
+                );
+                this.logger.info('polling: auto-disabled streamer mode');
             }
         } catch (error) {
             this.logger.error(

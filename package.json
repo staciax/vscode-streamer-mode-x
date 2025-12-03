@@ -126,7 +126,7 @@
             "properties": {
                 "streamer-mode.autoDetected.enable": {
                     "type": "boolean",
-                    "default": true,
+                    "default": false,
                     "description": "Automatically enable streamer mode when streaming software is detected."
                 },
                 "streamer-mode.autoDetected.interval.active": {
