@@ -1,3 +1,4 @@
+import { minimatch } from 'minimatch';
 import vscode from 'vscode';
 
 import { StreamerModeEditor } from './editor';
@@ -72,18 +73,7 @@ export class FileDecorator implements vscode.FileDecorationProvider {
     }
 
     private matchPattern(path: string, pattern: string): boolean {
-        // Simple glob matching
-        if (pattern.startsWith('*')) {
-            // Extension match: *.txt
-            return path.endsWith(pattern.substring(1));
-        } else if (pattern.includes('/')) {
-            // Folder pattern: folder/**
-            const folderPath = pattern.replace('/**', '');
-            return path.startsWith(folderPath);
-        } else {
-            // Exact filename match
-            return path.endsWith(pattern) || path === pattern;
-        }
+        return minimatch(path, pattern, { dot: true });
     }
 
     public static register(context: vscode.ExtensionContext): FileDecorator {
