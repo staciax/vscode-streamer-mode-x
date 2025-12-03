@@ -7,7 +7,8 @@ A Visual Studio Code extension that protects sensitive files like `.env`, especi
 
 <!-- When you try to open a protected file, **a warning screen** will appear instead of showing the file content. You can either **open the file anyway** or **close the warning**, keeping your secrets safe from accidental leaks during streams or presentations. -->
 
-![Preview](docs/demo.gif)
+<!-- ![Preview](docs/demo.gif) -->
+<!-- wait for update -->
 
 ## Installation
 
@@ -15,14 +16,13 @@ The extension for VS Code is available on the **Visual Studio Marketplace**
 - [Visual Studio Marketplace](https://marketplace.visualstudio.com/items?itemName=staciax.vscode-streamer-mode-x)
 - [Open VSX Registry](https://open-vsx.org/extension/staciax/vscode-streamer-mode-x)
 
-## Features
+## Key Features
 
-- **Easy to Use** – The warning disappears once you confirm the action.
-- **Supports Many File Types** – Protects `.env`, `.pem`, `.key`, `.crt`, `.pfx`, and more.
-- **Perfect for Streamers** – Prevent accidental exposure of sensitive information during live streams.
-- **Status Bar Control** – Visual indicator shows current mode (enabled/disabled) and allows toggling.
-- **Visual Cues** – Hidden files are marked with an 'S' badge in the Explorer.
-- **Quick Access** – Toggle hiding via Editor Title Menu or Keybindings.
+- **Zero-Leak Protection**: Unlike other extensions, this uses VS Code's Custom Editor API to intercept files *before* they render, ensuring no content ever flashes on screen.
+- **[Auto-Detection](#auto-detection)**: Automatically enables protection when streaming apps (OBS, Streamlabs) are running.
+- **Seamless & Easy to Use**: Designed to be "set and forget" with simple one-click toggles via status bar or keybindings.
+- **Visual Confidence**: A clear 'S' badge and color coding in the Explorer lets you know exactly which files are safe.
+- **Comprehensive Security**: Out-of-the-box protection for `.env`, `.pem`, `.key`, `.pfx`, and more, with support for custom file patterns.
 
 ## Usage
 
@@ -54,7 +54,7 @@ The extension can automatically enable Streamer Mode when it detects streaming s
 
 - **Supported Apps**: OBS Studio, Streamlabs, XSplit.
 - **Configuration**:
-  - `streamer-mode.autoDetected.enable`: Enable/disable auto-detection (default: `true`).
+  - `streamer-mode.autoDetected.enable`: Enable/disable auto-detection (default: `false`).
   - `streamer-mode.autoDetected.interval.active`: Polling interval when Streamer Mode is enabled (default: `60` seconds).
   - `streamer-mode.autoDetected.interval.inactive`: Polling interval when Streamer Mode is disabled (default: `30` seconds).
   - `streamer-mode.autoDetected.additionalApps`: List of additional process names to detect as streaming apps.
