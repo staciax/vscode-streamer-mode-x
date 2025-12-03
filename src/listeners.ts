@@ -37,20 +37,28 @@ export function createEditorAssociationsHandler(
                 ) || {};
 
             // Check if any association involving StreamerModeEditor.viewType has changed
-            const hasChanged =
-                Object.entries(currentAssociations).some(
-                    ([key, value]) =>
-                        value === StreamerModeEditor.viewType &&
-                        previousAssociations[key] !== value,
-                ) ||
-                Object.entries(previousAssociations).some(
-                    ([key, value]) =>
-                        value === StreamerModeEditor.viewType &&
-                        currentAssociations[key] !== value,
-                );
+            const changedKeys: string[] = [];
 
-            if (hasChanged) {
-                fileDecorator.refresh();
+            for (const [key, value] of Object.entries(currentAssociations)) {
+                if (
+                    value === StreamerModeEditor.viewType &&
+                    previousAssociations[key] !== value
+                ) {
+                    changedKeys.push(key);
+                }
+            }
+
+            for (const [key, value] of Object.entries(previousAssociations)) {
+                if (
+                    value === StreamerModeEditor.viewType &&
+                    currentAssociations[key] !== value
+                ) {
+                    changedKeys.push(key);
+                }
+            }
+
+            if (changedKeys.length > 0) {
+                fileDecorator.refresh(changedKeys);
             }
 
             previousAssociations = currentAssociations;

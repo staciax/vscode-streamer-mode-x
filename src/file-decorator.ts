@@ -31,7 +31,8 @@ export class FileDecorator implements vscode.FileDecorationProvider {
         }
     }
 
-    public refresh() {
+    public refresh(_changedKeys?: string[]) {
+        // TODO: Use changedKeys to optimize refresh by only updating affected files
         this.loadHiddenPatterns();
         // biome-ignore lint/suspicious/noExplicitAny: VS Code API requires passing undefined to fire for all resources
         this._onDidChangeFileDecorations.fire(undefined as any);
