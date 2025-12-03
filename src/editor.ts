@@ -149,9 +149,18 @@ export class StreamerModeEditor implements vscode.CustomTextEditorProvider {
                 'streamer-mode.css',
             ),
         );
+        const codiconsUri = webview.asWebviewUri(
+            vscode.Uri.joinPath(
+                this.context.extensionUri,
+                'node_modules',
+                '@vscode/codicons',
+                'dist',
+                'codicon.css',
+            ),
+        );
 
         const nonce = getNonce();
-        const csp = `default-src 'none'; style-src ${webview.cspSource}; script-src 'nonce-${nonce}';`;
+        const csp = `default-src 'none'; font-src ${webview.cspSource}; style-src ${webview.cspSource}; script-src 'nonce-${nonce}';`;
 
         return /* html */ `
         <!doctype html>
@@ -162,13 +171,16 @@ export class StreamerModeEditor implements vscode.CustomTextEditorProvider {
             <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
             <link href="${styleVSCodeUri}" rel="stylesheet" />
+            <link href="${codiconsUri}" rel="stylesheet" />
             <link href="${styleMainUri}" rel="stylesheet" />
 
             <title>Streamer Mode Warning</title>
         </head>
         <body>
             <div class="container">
-                <div class="warning-icon">⚠️</div>
+                <div class="warning-icon">
+                    <i class="codicon codicon-lock"></i>
+                </div>
                 <h1 class="warning-title">Streamer Mode Active</h1>
                 <p class="warning-text">
                     File hidden for privacy. Disable streamer mode to view content.
