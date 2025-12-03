@@ -1,6 +1,7 @@
 import vscode from 'vscode';
 
 import { getConfig, getSettings } from './settings';
+import { StreamerModeEditor } from './editor';
 
 export class FileDecorator implements vscode.FileDecorationProvider {
     private readonly _onDidChangeFileDecorations = new vscode.EventEmitter<
@@ -24,7 +25,7 @@ export class FileDecorator implements vscode.FileDecorationProvider {
 
         this.hiddenPatterns.clear();
         for (const [pattern, value] of Object.entries(associations)) {
-            if (value === 'streamer-mode') {
+            if (value === StreamerModeEditor.viewType) {
                 this.hiddenPatterns.add(pattern);
             }
         }
