@@ -45,7 +45,7 @@ export class FileDecorator implements vscode.FileDecorationProvider {
                 return {
                     // badge: 'S',
                     tooltip: 'Hidden in Streamer Mode',
-                    color: new vscode.ThemeColor('disabledForeground'),
+                    color: new vscode.ThemeColor('streamerMode.hiddenFile'),
                 };
             }
         }

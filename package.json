@@ -108,7 +108,18 @@
                     "description": "Enable or disable Streamer Mode."
                 }
             }
-        }
+        },
+        "colors": [
+            {
+                "id": "streamerMode.hiddenFile",
+                "description": "Color for files hidden in streamer mode",
+                "defaults": {
+                    "dark": "#ffffff40",
+                    "light": "#00000040",
+                    "highContrast": "#ffffff60"
+                }
+            }
+        ]
     },
     "scripts": {
         "vscode:prepublish": "bun run package",
