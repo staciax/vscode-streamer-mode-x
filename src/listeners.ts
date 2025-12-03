@@ -2,12 +2,10 @@ import vscode from 'vscode';
 
 import { StreamerModeEditor } from './editor';
 import type { FileDecorator } from './file-decorator';
-import type { PollingService } from './polling';
 import type { StatusBar } from './status-bar';
 
 export function handleStreamerModeConfigChange(
     e: vscode.ConfigurationChangeEvent,
-    pollingService: PollingService,
     statusBar: StatusBar,
     editor: StreamerModeEditor,
 ) {
@@ -15,7 +13,6 @@ export function handleStreamerModeConfigChange(
         e.affectsConfiguration('streamer-mode.enabled') ||
         e.affectsConfiguration('streamer-mode.autoDetected')
     ) {
-        pollingService.start();
         statusBar.update(editor.isEnable);
     }
 }

@@ -10,9 +10,26 @@ export class PollingService implements vscode.Disposable {
     private readonly editor: StreamerModeEditor;
     private readonly logger: Logger;
 
+    private disposables: vscode.Disposable[] = [];
+
     constructor(editor: StreamerModeEditor, logger: Logger) {
         this.editor = editor;
         this.logger = logger;
+
+        vscode.workspace.onDidChangeConfiguration(
+            this.onConfigurationChanged,
+            this,
+            this.disposables,
+        );
+    }
+
+    private onConfigurationChanged(e: vscode.ConfigurationChangeEvent) {
+        if (
+            e.affectsConfiguration('streamer-mode.enabled') ||
+            e.affectsConfiguration('streamer-mode.autoDetected')
+        ) {
+            this.start();
+        }
     }
 
     public start() {
@@ -69,5 +86,9 @@ export class PollingService implements vscode.Disposable {
 
     public dispose() {
         this.stop();
+        for (const d of this.disposables) {
+            d.dispose();
+        }
+        this.disposables = [];
     }
 }
