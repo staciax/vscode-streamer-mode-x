@@ -96,10 +96,18 @@ export async function toggleFileProtection(
         }
 
         if (match) {
-            await vscode.commands.executeCommand(
-                'workbench.action.closeActiveEditor',
-            );
-            await vscode.commands.executeCommand('vscode.open', uri);
+            try {
+                await vscode.commands.executeCommand(
+                    'workbench.action.closeActiveEditor',
+                );
+                await vscode.commands.executeCommand('vscode.open', uri);
+            } catch (e) {
+                const errorMessage = e instanceof Error ? e.message : String(e);
+                logger.error(`Failed to refresh editor: ${errorMessage}`);
+                vscode.window.showErrorMessage(
+                    `Failed to refresh editor: ${errorMessage}`,
+                );
+            }
         }
     }
 }
