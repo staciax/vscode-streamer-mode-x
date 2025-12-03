@@ -153,6 +153,11 @@
                     "type": "boolean",
                     "default": true,
                     "description": "Enable or disable Streamer Mode."
+                },
+                "streamer-mode.decoration.propagate": {
+                    "type": "boolean",
+                    "default": true,
+                    "description": "Propagate the hidden file decoration to parent folders."
                 }
             }
         },
