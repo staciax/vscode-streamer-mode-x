@@ -3,6 +3,10 @@ import vscode from 'vscode';
 import { addAssociation, removeAssociation, toggleHideFile } from './commands';
 import { StreamerModeEditor } from './editor';
 import { FileDecorator } from './file-decorator';
+import {
+    createEditorAssociationsHandler,
+    handleStreamerModeConfigChange,
+} from './listeners';
 import Logger from './logger';
 import { PollingService } from './polling';
 import { StatusBar } from './status-bar';
@@ -23,22 +27,24 @@ export async function activate(context: vscode.ExtensionContext) {
     pollingService.check();
     pollingService.start();
 
-    // Listen for configuration changes
-    context.subscriptions.push(
-        vscode.workspace.onDidChangeConfiguration((e) => {
-            if (
-                e.affectsConfiguration('streamer-mode.enabled') ||
-                e.affectsConfiguration('streamer-mode.autoDetected')
-            ) {
-                pollingService.start();
-                statusBar.update(editor.isEnable);
-            }
-        }),
-    );
-
     context.subscriptions.push(pollingService);
 
     const fileDecorator = FileDecorator.register(context);
+
+    const handleEditorAssociations =
+        createEditorAssociationsHandler(fileDecorator);
+
+    context.subscriptions.push(
+        vscode.workspace.onDidChangeConfiguration((e) => {
+            handleStreamerModeConfigChange(
+                e,
+                pollingService,
+                statusBar,
+                editor,
+            );
+            handleEditorAssociations(e);
+        }),
+    );
 
     context.subscriptions.push(
         vscode.commands.registerCommand('streamer-mode.addAssociation', () =>
@@ -55,7 +61,7 @@ export async function activate(context: vscode.ExtensionContext) {
     context.subscriptions.push(
         vscode.commands.registerCommand(
             'vscode-streamer-mode-x.toggleHideFile',
-            (uri: vscode.Uri) => toggleHideFile(uri, logger, fileDecorator),
+            (uri: vscode.Uri) => toggleHideFile(uri, logger),
         ),
     );
 
