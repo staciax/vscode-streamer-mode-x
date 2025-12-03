@@ -49,7 +49,7 @@ export class FileDecorator implements vscode.FileDecorationProvider {
 
         const providePromise = this._provideFileDecoration(uri);
 
-        return Promise.any([cancelPromise, providePromise]);
+        return Promise.race([cancelPromise, providePromise]);
     }
 
     private async _provideFileDecoration(
