@@ -55,8 +55,14 @@ export class FileDecorator implements vscode.FileDecorationProvider {
     private async _provideFileDecoration(
         uri: vscode.Uri,
     ): Promise<vscode.FileDecoration | undefined> {
+        const settings = getSettings();
+
+        if (!settings.enabled) {
+            return undefined;
+        }
+
         const basename = vscode.workspace.asRelativePath(uri);
-        const shouldPropagate = getSettings().decoration.propagate;
+        const shouldPropagate = settings.decoration.propagate;
 
         for (const pattern of this.hiddenPatterns) {
             if (this.matchPattern(basename, pattern)) {

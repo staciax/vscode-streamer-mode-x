@@ -8,13 +8,13 @@ export function handleStreamerModeConfigChange(
     e: vscode.ConfigurationChangeEvent,
     statusBar: StatusBar,
     editor: StreamerModeEditor,
+    fileDecorator: FileDecorator,
 ) {
-    if (
-        e.affectsConfiguration('streamer-mode.enabled') ||
-        e.affectsConfiguration('streamer-mode.autoDetected')
-    ) {
+    if (e.affectsConfiguration('streamer-mode.enabled')) {
         statusBar.update(editor.isEnable);
+        fileDecorator.refresh();
     }
+    // e.affectsConfiguration('streamer-mode.autoDetected')
 }
 
 export function createEditorAssociationsHandler(
