@@ -1,6 +1,10 @@
 import vscode from 'vscode';
 
-import { addAssociation, removeAssociation, toggleHideFile } from './commands';
+import {
+    addAssociation,
+    removeAssociation,
+    toggleFileProtection,
+} from './commands';
 import { StreamerModeEditor } from './editor';
 import { FileDecorator } from './file-decorator';
 import {
@@ -60,8 +64,8 @@ export async function activate(context: vscode.ExtensionContext) {
 
     context.subscriptions.push(
         vscode.commands.registerCommand(
-            'vscode-streamer-mode-x.toggleHideFile',
-            (uri: vscode.Uri) => toggleHideFile(uri, logger),
+            'vscode-streamer-mode-x.toggleFileProtection',
+            (uri: vscode.Uri) => toggleFileProtection(uri, logger),
         ),
     );
 

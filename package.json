@@ -85,8 +85,8 @@
                 "category": "Streamer Mode"
             },
             {
-                "command": "vscode-streamer-mode-x.toggleHideFile",
-                "title": "Toggle Streamer Mode Hide",
+                "command": "vscode-streamer-mode-x.toggleFileProtection",
+                "title": "Toggle File Protection",
                 "category": "Streamer Mode",
                 "icon": "$(eye)"
             }
@@ -106,13 +106,13 @@
         "menus": {
             "explorer/context": [
                 {
-                    "command": "vscode-streamer-mode-x.toggleHideFile",
+                    "command": "vscode-streamer-mode-x.toggleFileProtection",
                     "group": "2_workspace@1"
                 }
             ],
             "editor/title": [
                 {
-                    "command": "vscode-streamer-mode-x.toggleHideFile",
+                    "command": "vscode-streamer-mode-x.toggleFileProtection",
                     "group": "navigation",
                     "when": "resourceLangId"
                 }
@@ -120,7 +120,7 @@
         },
         "keybindings": [
             {
-                "command": "vscode-streamer-mode-x.toggleHideFile",
+                "command": "vscode-streamer-mode-x.toggleFileProtection",
                 "key": "ctrl+alt+h",
                 "mac": "ctrl+cmd+h",
                 "when": "editorTextFocus"
@@ -157,14 +157,14 @@
                 "streamer-mode.decoration.propagate": {
                     "type": "boolean",
                     "default": true,
-                    "description": "Propagate the hidden file decoration to parent folders."
+                    "description": "Propagate the protected file decoration to parent folders."
                 }
             }
         },
         "colors": [
             {
                 "id": "streamerMode.hiddenFile",
-                "description": "Color for files hidden in streamer mode",
+                "description": "Color for files protected in streamer mode",
                 "defaults": {
                     "light": "#555c7e",
                     "dark": "#555c7e"

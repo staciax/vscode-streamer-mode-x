@@ -279,11 +279,7 @@ export async function removeAssociation(logger: Logger) {
     logger.debug(`command: removed ${messages.join(' and ')} association(s)`);
 }
 
-export async function toggleHideFile(uri: vscode.Uri, logger: Logger) {
-    if (!uri) {
-        return;
-    }
-
+export async function toggleFileProtection(uri: vscode.Uri, logger: Logger) {
     const stat = await vscode.workspace.fs.stat(uri);
     const isFolder = stat.type === vscode.FileType.Directory;
 
@@ -303,10 +299,11 @@ export async function toggleHideFile(uri: vscode.Uri, logger: Logger) {
     const workspaceValue = inspected?.workspaceValue ?? {};
     const updated = { ...workspaceValue };
 
-    // Check if already hidden
-    const isCurrentlyHidden = updated[pattern] === StreamerModeEditor.viewType;
+    // Check if already protected
+    const isCurrentlyProtected =
+        updated[pattern] === StreamerModeEditor.viewType;
 
-    if (isCurrentlyHidden) {
+    if (isCurrentlyProtected) {
         delete updated[pattern];
     } else {
         updated[pattern] = StreamerModeEditor.viewType;
@@ -320,18 +317,18 @@ export async function toggleHideFile(uri: vscode.Uri, logger: Logger) {
             vscode.ConfigurationTarget.Workspace,
         );
 
-        if (isCurrentlyHidden) {
-            logger.debug(`Unhidden: ${pattern}`);
-            vscode.window.showInformationMessage(`Unhidden: ${pattern}`);
+        if (isCurrentlyProtected) {
+            logger.debug(`Unprotected: ${pattern}`);
+            vscode.window.showInformationMessage(`Unprotected: ${pattern}`);
         } else {
-            logger.debug(`Hidden: ${pattern}`);
+            logger.debug(`Protected: ${pattern}`);
             vscode.window.showInformationMessage(
-                `Hidden in Streamer Mode: ${pattern}`,
+                `Protected in Streamer Mode: ${pattern}`,
             );
         }
     } catch (e) {
         const errorMessage = e instanceof Error ? e.message : String(e);
-        const action = isCurrentlyHidden ? 'unhide' : 'hide';
+        const action = isCurrentlyProtected ? 'unprotect' : 'protect';
         logger.error(`Failed to ${action}: ${errorMessage}`);
         vscode.window.showErrorMessage(`Failed to ${action}: ${errorMessage}`);
         return;
