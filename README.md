@@ -19,6 +19,8 @@ The extension for VS Code is available on the **Visual Studio Marketplace**
 - **Supports Many File Types** – Protects `.env`, `.pem`, `.key`, `.crt`, `.pfx`, and more.
 - **Perfect for Streamers** – Prevent accidental exposure of sensitive information during live streams.
 - **Status Bar Control** – Visual indicator shows current mode (enabled/disabled) and allows toggling.
+- **Visual Cues** – Hidden files are marked with an 'S' badge in the Explorer.
+- **Quick Access** – Toggle hiding via Editor Title Menu or Keybindings.
 
 ## Usage
 
@@ -30,15 +32,24 @@ The extension automatically protects the following file types:
 
 ### Toggling Streamer Mode
 
-You can enable/disable the protection in two ways:
+You can enable/disable the protection in multiple ways:
 
 1. **Status Bar**: Click on the "Streamer Mode" indicator in the status bar
-2. **Command Palette**: 
+2. **Keybinding**: Press `Ctrl+Cmd+S` (Mac) or `Ctrl+Alt+S` (Windows/Linux)
+3. **Command Palette**: 
    - Open the command palette (Ctrl+Shift+P / Cmd+Shift+P)
    - Type "Toggle Streamer Mode"
    - Select to enable/disable
 
 When disabled, protected files will open normally without the warning screen.
+
+### Hiding/Unhiding Files
+
+You can quickly hide or unhide the current file:
+
+1. **Editor Title Menu**: Click the **Eye Icon** in the top-right corner of the editor.
+2. **Keybinding**: Press `Ctrl+Cmd+H` (Mac) or `Ctrl+Alt+H` (Windows/Linux).
+3. **Context Menu**: Right-click a file in Explorer and select "Toggle Streamer Mode Hide".
 
 ### Managing File Associations
 
