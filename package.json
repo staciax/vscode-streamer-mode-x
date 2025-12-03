@@ -3,7 +3,7 @@
     "module": "src/extension.ts",
     "displayName": "Streamer Mode X",
     "description": "A Visual Studio Code extension that protects sensitive files",
-    "version": "0.0.9",
+    "version": "0.1.0",
     "publisher": "staciax",
     "repository": {
         "type": "git",
@@ -42,6 +42,32 @@
     ],
     "main": "./dist/extension.js",
     "contributes": {
+        "walkthroughs": [
+            {
+                "id": "streamer-mode-walkthrough",
+                "title": "Get Started with Streamer Mode X",
+                "description": "Learn how to protect your sensitive files.",
+                "steps": [
+                    {
+                        "id": "intro",
+                        "title": "Welcome",
+                        "description": "media/walkthrough/intro.md",
+                        "media": {
+                            "image": "media/icon.png",
+                            "altText": "Streamer Mode X Icon"
+                        }
+                    },
+                    {
+                        "id": "usage",
+                        "title": "How to Use",
+                        "description": "media/walkthrough/usage.md",
+                        "media": {
+                            "markdown": "media/walkthrough/usage.md"
+                        }
+                    }
+                ]
+            }
+        ],
         "commands": [
             {
                 "command": "streamer-mode.toggle",
@@ -61,7 +87,8 @@
             {
                 "command": "vscode-streamer-mode-x.toggleHideFile",
                 "title": "Toggle Streamer Mode Hide",
-                "category": "Streamer Mode"
+                "category": "Streamer Mode",
+                "icon": "$(eye)"
             }
         ],
         "customEditors": [
@@ -82,8 +109,28 @@
                     "command": "vscode-streamer-mode-x.toggleHideFile",
                     "group": "2_workspace@1"
                 }
+            ],
+            "editor/title": [
+                {
+                    "command": "vscode-streamer-mode-x.toggleHideFile",
+                    "group": "navigation",
+                    "when": "resourceLangId"
+                }
             ]
         },
+        "keybindings": [
+            {
+                "command": "vscode-streamer-mode-x.toggleHideFile",
+                "key": "ctrl+alt+h",
+                "mac": "ctrl+cmd+h",
+                "when": "editorTextFocus"
+            },
+            {
+                "command": "streamer-mode.toggle",
+                "key": "ctrl+alt+s",
+                "mac": "ctrl+cmd+s"
+            }
+        ],
         "configuration": {
             "title": "Streamer Mode",
             "properties": {
@@ -133,6 +180,7 @@
         "format": "biome check --write . && biome format . --write"
     },
     "dependencies": {
+        "@vscode/codicons": "~0.0.43",
         "find-process": "~2.0.0",
         "vscode-uri": "~3.1.0"
     },
