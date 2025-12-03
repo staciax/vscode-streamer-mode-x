@@ -61,7 +61,7 @@ export class FileDecorator implements vscode.FileDecorationProvider {
             if (this.matchPattern(basename, pattern)) {
                 return {
                     badge: 'S',
-                    tooltip: 'Hidden in Streamer Mode',
+                    tooltip: 'Protected in Streamer Mode',
                     color: new vscode.ThemeColor('streamerMode.hiddenFile'),
                     propagate: shouldPropagate,
                 };
