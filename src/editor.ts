@@ -1,7 +1,7 @@
 import vscode from 'vscode';
 
 import type Logger from './logger';
-import { getConfig, updateConfig } from './settings';
+import { getSettings, updateConfig } from './settings';
 import type { StatusBar } from './status-bar';
 import { getNonce } from './utils/nonce';
 
@@ -15,7 +15,7 @@ export class StreamerModeEditor implements vscode.CustomTextEditorProvider {
      * Whether streamer mode is enabled
      */
     public get isEnable(): boolean {
-        return getConfig('streamer-mode', 'enabled', true);
+        return getSettings().enabled;
     }
 
     /**

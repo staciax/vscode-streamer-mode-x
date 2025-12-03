@@ -1,6 +1,6 @@
 import vscode from 'vscode';
 
-import { getConfig } from './settings';
+import { getConfig, getSettings } from './settings';
 
 export class FileDecorator implements vscode.FileDecorationProvider {
     private readonly _onDidChangeFileDecorations = new vscode.EventEmitter<
@@ -32,7 +32,7 @@ export class FileDecorator implements vscode.FileDecorationProvider {
 
     public refresh() {
         this.loadHiddenPatterns();
-        // biome-ignore lint/suspicious/noExplicitAny: <explanation>
+        // biome-ignore lint/suspicious/noExplicitAny: VS Code API requires passing undefined to fire for all resources
         this._onDidChangeFileDecorations.fire(undefined as any);
     }
 
@@ -53,11 +53,7 @@ export class FileDecorator implements vscode.FileDecorationProvider {
         uri: vscode.Uri,
     ): Promise<vscode.FileDecoration | undefined> {
         const basename = vscode.workspace.asRelativePath(uri);
-        const shouldPropagate = getConfig<boolean>(
-            'streamer-mode',
-            'decoration.propagate',
-            true,
-        );
+        const shouldPropagate = getSettings().decoration.propagate;
 
         for (const pattern of this.hiddenPatterns) {
             if (this.matchPattern(basename, pattern)) {

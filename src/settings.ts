@@ -48,6 +48,7 @@ export function getConfig<T>(
 export async function updateConfig(
     section: string,
     key: string,
+    // biome-ignore lint/suspicious/noExplicitAny: Configuration values can be of any type
     value: any,
     target: vscode.ConfigurationTarget = vscode.ConfigurationTarget.Global,
 ) {

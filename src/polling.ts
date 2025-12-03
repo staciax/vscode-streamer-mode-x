@@ -2,7 +2,7 @@ import vscode from 'vscode';
 
 import type { StreamerModeEditor } from './editor';
 import type Logger from './logger';
-import { getConfig } from './settings';
+import { getSettings } from './settings';
 import { detectStreamingApps } from './utils/streamer';
 
 export class PollingService implements vscode.Disposable {
@@ -18,21 +18,16 @@ export class PollingService implements vscode.Disposable {
     public start() {
         this.stop();
 
+        const settings = getSettings();
+
         // Check if auto-detection is enabled
-        if (!getConfig('streamer-mode', 'autoDetected.enable', true)) {
+        if (!settings.autoDetected.enable) {
             return;
         }
 
-        const activeInterval = getConfig(
-            'streamer-mode',
-            'autoDetected.interval.active',
-            60,
-        );
-        const inactiveInterval = getConfig(
-            'streamer-mode',
-            'autoDetected.interval.inactive',
-            30,
-        );
+
+        const activeInterval = settings.autoDetected.interval.active;
+        const inactiveInterval = settings.autoDetected.interval.inactive;
 
         const delay =
             (this.editor.isEnable ? activeInterval : inactiveInterval) * 1000;
@@ -50,7 +45,7 @@ export class PollingService implements vscode.Disposable {
 
     public async check() {
         // Double check config in case it changed, but start() already handles the interval
-        if (!getConfig('streamer-mode', 'autoDetected.enable', true)) {
+        if (!getSettings().autoDetected.enable) {
             return;
         }
 
