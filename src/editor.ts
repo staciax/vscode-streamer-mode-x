@@ -15,6 +15,8 @@ export class StreamerModeEditor implements vscode.CustomTextEditorProvider {
     //  */
     // private readonly logger: Logger;
 
+    private cachedHtml: string | null = null;
+
     public static register(
         context: vscode.ExtensionContext,
         statusBar: StatusBar,
@@ -79,9 +81,12 @@ export class StreamerModeEditor implements vscode.CustomTextEditorProvider {
         webviewPanel.webview.options = {
             enableScripts: true,
         };
-        webviewPanel.webview.html = this.getHtmlForWebview(
-            webviewPanel.webview,
-        );
+
+        if (!this.cachedHtml) {
+            this.cachedHtml = this.getHtmlForWebview(webviewPanel.webview);
+        }
+
+        webviewPanel.webview.html = this.cachedHtml;
 
         type WebviewMessage = { type: 'open' } | { type: 'close' };
         // | { type: 'ready' };
