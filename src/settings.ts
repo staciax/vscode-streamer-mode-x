@@ -39,15 +39,16 @@ export function getSettings(): StreamerModeSettings {
     };
 }
 
+export function getConfig<T>(section: string, key: string): T | undefined;
+export function getConfig<T>(section: string, key: string, defaultValue: T): T;
 export function getConfig<T>(
     section: string,
     key: string,
     defaultValue?: T,
-): T {
-    return (
-        vscode.workspace.getConfiguration(section).get<T>(key) ??
-        (defaultValue as T)
-    );
+): T | undefined {
+    const config = vscode.workspace.getConfiguration(section);
+    const value = config.get<T>(key);
+    return value ?? defaultValue;
 }
 
 export async function updateConfig(
