@@ -61,7 +61,7 @@
         ],
         "customEditors": [
             {
-                "viewType": "streamer-mode.editor",
+                "viewType": "streamer-mode",
                 "displayName": "Streamer Mode",
                 "selector": [
                     {

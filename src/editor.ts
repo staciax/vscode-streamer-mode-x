@@ -6,15 +6,18 @@ import { getNonce } from './utils/nonce';
 
 export class StreamerModeEditor implements vscode.CustomTextEditorProvider {
     /**
+     * The custom editor view type
+     */
+    public static readonly viewType = 'streamer-mode';
+
+    /**
      * Whether streamer mode is enabled
      */
     private isEnable = true;
 
-    // /**
-    //  *  Logger for the Streamer Mode Editor
-    //  */
-    // private readonly logger: Logger;
-
+    /**
+     * Cached html for the webview
+     */
     private cachedHtml: string | null = null;
 
     public static register(
@@ -44,8 +47,6 @@ export class StreamerModeEditor implements vscode.CustomTextEditorProvider {
 
         return providerRegistration;
     }
-
-    public static readonly viewType = 'streamer-mode.editor';
 
     constructor(
         private readonly context: vscode.ExtensionContext,
