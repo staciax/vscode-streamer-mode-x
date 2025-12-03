@@ -114,9 +114,8 @@
                 "id": "streamerMode.hiddenFile",
                 "description": "Color for files hidden in streamer mode",
                 "defaults": {
-                    "dark": "#ffffff40",
-                    "light": "#00000040",
-                    "highContrast": "#ffffff60"
+                    "light": "#555c7e",
+                    "dark": "#555c7e"
                 }
             }
         ]
