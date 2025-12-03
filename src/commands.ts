@@ -2,7 +2,6 @@ import vscode, { workspace } from 'vscode';
 import { Utils } from 'vscode-uri';
 
 import { StreamerModeEditor } from './editor';
-import type { FileDecorator } from './file-decorator';
 import type Logger from './logger';
 import { getConfig, updateConfig } from './settings';
 
@@ -280,11 +279,7 @@ export async function removeAssociation(logger: Logger) {
     logger.debug(`command: removed ${messages.join(' and ')} association(s)`);
 }
 
-export async function toggleHideFile(
-    uri: vscode.Uri,
-    logger: Logger,
-    fileDecorator: FileDecorator,
-) {
+export async function toggleHideFile(uri: vscode.Uri, logger: Logger) {
     if (!uri) {
         return;
     }
@@ -341,8 +336,6 @@ export async function toggleHideFile(
         vscode.window.showErrorMessage(`Failed to ${action}: ${errorMessage}`);
         return;
     }
-
-    fileDecorator.refresh();
 
     // Refresh if active
     const activeTab = vscode.window.tabGroups.activeTabGroup.activeTab;
