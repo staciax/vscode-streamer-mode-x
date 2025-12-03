@@ -5,7 +5,6 @@ import { StreamerModeEditor } from './editor';
 import { FileDecorator } from './file-decorator';
 import Logger from './logger';
 import { PollingService } from './polling';
-import { getConfig, updateConfig } from './settings';
 import { StatusBar } from './status-bar';
 import { detectStreamingApps } from './utils/streamer';
 
