@@ -194,10 +194,9 @@ export class StreamerModeEditor implements vscode.CustomTextEditorProvider {
     }
 
     public async setEnable(enable: boolean) {
-        if (this.isEnable === enable) {
-            return;
+        if (this.isEnable !== enable) {
+            await updateConfig('streamer-mode', 'enabled', enable);
         }
-        await updateConfig('streamer-mode', 'enabled', enable);
         this.statusBar.update(enable);
     }
 }
