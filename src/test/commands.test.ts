@@ -7,6 +7,7 @@ import * as vscode from 'vscode';
 import { toggleFileProtection } from '../commands';
 import { StreamerModeEditor } from '../editor';
 import type Logger from '../logger';
+import { waitForConfig } from './test-utils';
 
 suite('Commands Test Suite', () => {
     let logger: Logger;
@@ -117,7 +118,7 @@ suite('Commands Test Suite', () => {
         await toggleFileProtection(tempFileUri, logger);
 
         // Wait for config update to propagate
-        await new Promise((resolve) => setTimeout(resolve, 500));
+        await waitForConfig(pattern, StreamerModeEditor.viewType);
 
         let config = vscode.workspace
             .getConfiguration('workbench')
@@ -132,7 +133,7 @@ suite('Commands Test Suite', () => {
         await toggleFileProtection(tempFileUri, logger);
 
         // Wait for config update to propagate
-        await new Promise((resolve) => setTimeout(resolve, 500));
+        await waitForConfig(pattern, undefined);
 
         config = vscode.workspace
             .getConfiguration('workbench')
