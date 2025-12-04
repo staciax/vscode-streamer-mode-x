@@ -179,7 +179,7 @@ export class StreamerModeEditor implements vscode.CustomTextEditorProvider {
                     File hidden for privacy. Disable streamer mode to view content.
                 </p>
                 <div class="button-container">
-                    <button class="open-button">Open Once</button>
+                    <button class="open-button">View Anyway</button>
                     <button class="close-button secondary">Close</button>
                 </div>
             </div>
