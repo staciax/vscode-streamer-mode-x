@@ -5,7 +5,7 @@ import { StreamerModeEditor } from './editor';
 import { FileDecorator } from './file-decorator';
 import {
     createEditorAssociationsHandler,
-    handleStreamerModeConfigChange,
+    streamerModeConfigChangeHandler,
 } from './listeners';
 import Logger from './logger';
 import { PollingService } from './polling';
@@ -31,13 +31,18 @@ export async function activate(context: vscode.ExtensionContext) {
 
     const fileDecorator = FileDecorator.register(context);
 
-    const handleEditorAssociations =
+    const editorAssociationsHandler =
         createEditorAssociationsHandler(fileDecorator);
 
     context.subscriptions.push(
         vscode.workspace.onDidChangeConfiguration((e) => {
-            handleStreamerModeConfigChange(e, statusBar, editor, fileDecorator);
-            handleEditorAssociations(e);
+            streamerModeConfigChangeHandler(
+                e,
+                statusBar,
+                editor,
+                fileDecorator,
+            );
+            editorAssociationsHandler(e);
         }),
     );
 

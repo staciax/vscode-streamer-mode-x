@@ -4,7 +4,7 @@ import { StreamerModeEditor } from './editor';
 import type { FileDecorator } from './file-decorator';
 import type { StatusBar } from './status-bar';
 
-export function handleStreamerModeConfigChange(
+export function streamerModeConfigChangeHandler(
     e: vscode.ConfigurationChangeEvent,
     statusBar: StatusBar,
     editor: StreamerModeEditor,
