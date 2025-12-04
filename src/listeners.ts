@@ -1,14 +1,14 @@
 import vscode from 'vscode';
 
 import { StreamerModeEditor } from './editor';
-import type { FileDecorator } from './file-decorator';
+import type { StreamerModeFileDecorationProvider } from './file-decorator';
 import type { StatusBar } from './status-bar';
 
 export function streamerModeConfigChangeHandler(
     e: vscode.ConfigurationChangeEvent,
     statusBar: StatusBar,
     editor: StreamerModeEditor,
-    fileDecorator: FileDecorator,
+    fileDecorator: StreamerModeFileDecorationProvider,
 ) {
     if (e.affectsConfiguration('streamer-mode.enabled')) {
         statusBar.update(editor.isEnable);
@@ -18,7 +18,7 @@ export function streamerModeConfigChangeHandler(
 }
 
 export function createEditorAssociationsHandler(
-    fileDecorator: FileDecorator,
+    fileDecorator: StreamerModeFileDecorationProvider,
 ): (e: vscode.ConfigurationChangeEvent) => void {
     let previousAssociations =
         vscode.workspace

@@ -2,7 +2,7 @@ import vscode from 'vscode';
 
 import { toggleFileProtection } from './commands';
 import { StreamerModeEditor } from './editor';
-import { FileDecorator } from './file-decorator';
+import { StreamerModeFileDecorationProvider } from './file-decorator';
 import {
     createEditorAssociationsHandler,
     streamerModeConfigChangeHandler,
@@ -29,7 +29,7 @@ export async function activate(context: vscode.ExtensionContext) {
 
     context.subscriptions.push(pollingService);
 
-    const fileDecorator = FileDecorator.register(context);
+    const fileDecorator = StreamerModeFileDecorationProvider.register(context);
 
     const editorAssociationsHandler =
         createEditorAssociationsHandler(fileDecorator);

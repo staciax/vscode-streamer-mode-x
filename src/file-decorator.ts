@@ -4,7 +4,9 @@ import vscode from 'vscode';
 import { StreamerModeEditor } from './editor';
 import { getConfig, getSettings } from './settings';
 
-export class FileDecorator implements vscode.FileDecorationProvider {
+export class StreamerModeFileDecorationProvider
+    implements vscode.FileDecorationProvider
+{
     private readonly _onDidChangeFileDecorations = new vscode.EventEmitter<
         vscode.Uri | vscode.Uri[] | undefined
     >();
@@ -82,8 +84,14 @@ export class FileDecorator implements vscode.FileDecorationProvider {
         return minimatch(path, pattern, { dot: true });
     }
 
-    public static register(context: vscode.ExtensionContext): FileDecorator {
-        const decorator = new FileDecorator();
+    public dispose() {
+        this._onDidChangeFileDecorations.dispose();
+    }
+
+    public static register(
+        context: vscode.ExtensionContext,
+    ): StreamerModeFileDecorationProvider {
+        const decorator = new StreamerModeFileDecorationProvider();
         context.subscriptions.push(
             vscode.window.registerFileDecorationProvider(decorator),
         );
