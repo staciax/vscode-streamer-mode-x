@@ -7,7 +7,7 @@ import * as vscode from 'vscode';
  * @param expectedValue The expected value for the configuration key.
  * @param timeout The timeout in milliseconds (default: 2000ms).
  */
-export async function waitForConfig(
+export async function waitForEditorAssociation(
     pattern: string,
     expectedValue: string | undefined,
     timeout = 2000,
