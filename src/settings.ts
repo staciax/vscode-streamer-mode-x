@@ -48,7 +48,7 @@ export function getConfig<T>(
 ): T | undefined {
     const config = vscode.workspace.getConfiguration(section);
     const value = config.get<T>(key);
-    return value ?? defaultValue;
+    return value !== undefined ? value : defaultValue;
 }
 
 export async function updateConfig(
