@@ -13,7 +13,8 @@
             "!dist",
             "!build",
             "!out",
-            "!.vscode-test"
+            "!.vscode-test",
+            "!src/test/workspace/.vscode"
         ]
     },
     "assist": {
