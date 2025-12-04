@@ -20,7 +20,7 @@ export function getSettings(): StreamerModeSettings {
     return {
         enabled: config.get<boolean>('enabled', true),
         autoDetected: {
-            enable: config.get<boolean>('autoDetected.enable', true),
+            enable: config.get<boolean>('autoDetected.enable', false),
             interval: {
                 active: config.get<number>('autoDetected.interval.active', 60),
                 inactive: config.get<number>(
