@@ -26,7 +26,7 @@ body {
 }
 
 .warning-icon .codicon {
-    font-size: clamp(3rem, 15vmin, 6rem);
+    font-size: clamp(3rem, 10vw, 6rem);
 }
 
 h1 {
