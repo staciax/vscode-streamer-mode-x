@@ -78,7 +78,7 @@
                 "command": "streamer-mode.toggleFileProtection",
                 "title": "Toggle File Protection",
                 "category": "Streamer Mode",
-                "icon": "$(eye)"
+                "icon": "$(lock)"
             }
         ],
         "customEditors": [
