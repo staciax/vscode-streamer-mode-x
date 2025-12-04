@@ -12,10 +12,18 @@ suite('Polling Service Test Suite', () => {
 
     setup(() => {
         logger = {
-            info: () => {},
-            debug: () => {},
-            warn: () => {},
-            error: () => {},
+            info: () => {
+                /* mock */
+            },
+            debug: () => {
+                /* mock */
+            },
+            warn: () => {
+                /* mock */
+            },
+            error: () => {
+                /* mock */
+            },
         } as unknown as Logger;
     });
 
