@@ -6,6 +6,7 @@ import { detectStreamingApps } from './utils/streamer';
 
 export class PollingService implements vscode.Disposable {
     private interval: NodeJS.Timeout | undefined;
+    private isChecking = false;
     private readonly logger: Logger;
 
     private disposables: vscode.Disposable[] = [];
@@ -57,14 +58,20 @@ export class PollingService implements vscode.Disposable {
     }
 
     public async check() {
-        const settings = getSettings();
-
-        // Double check config in case it changed, but start() already handles the interval
-        if (!settings.autoDetected.enable) {
+        if (this.isChecking) {
             return;
         }
 
+        this.isChecking = true;
+
         try {
+            const settings = getSettings();
+
+            // Double check config in case it changed, but start() already handles the interval
+            if (!settings.autoDetected.enable) {
+                return;
+            }
+
             const isStreaming = await detectStreamingApps(
                 settings.autoDetected.additionalApps,
             );
@@ -87,6 +94,8 @@ export class PollingService implements vscode.Disposable {
             this.logger.error(
                 `polling: failed to check streaming apps: ${error}`,
             );
+        } finally {
+            this.isChecking = false;
         }
     }
 
