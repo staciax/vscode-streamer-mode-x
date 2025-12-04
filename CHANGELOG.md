@@ -50,8 +50,8 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 ### Added
 - **Walkthrough**: New "Get Started" page to guide users.
 - **Keybindings**:
-    - `Ctrl+Cmd+H` (Mac) / `Ctrl+Alt+H`: Toggle Hide File.
-    - `Ctrl+Cmd+S` (Mac) / `Ctrl+Alt+S`: Toggle Streamer Mode.
+    - `Cmd+Option+H` (Mac) / `Ctrl+Alt+H`: Toggle Hide File.
+    - `Cmd+Option+S` (Mac) / `Ctrl+Alt+S`: Toggle Streamer Mode.
 - **Editor Title Menu**: Eye icon to quickly hide/unhide files.
 - **Badges**: 'S' badge for hidden files in Explorer.
 - **Configuration**: New setting `streamer-mode.autoDetected.additionalApps` to allow users to specify custom streaming apps.
