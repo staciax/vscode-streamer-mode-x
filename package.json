@@ -132,11 +132,15 @@
                 "streamer-mode.autoDetected.interval.active": {
                     "type": "number",
                     "default": 60,
+                    "minimum": 5,
+                    "maximum": 3600,
                     "description": "Polling interval in seconds when Streamer Mode is enabled."
                 },
                 "streamer-mode.autoDetected.interval.inactive": {
                     "type": "number",
                     "default": 30,
+                    "minimum": 5,
+                    "maximum": 3600,
                     "description": "Polling interval in seconds when Streamer Mode is disabled."
                 },
                 "streamer-mode.autoDetected.additionalApps": {
@@ -176,7 +180,7 @@
         "watch": "bun run compile --watch --outdir ./out",
         "watch:esbuild": "bun esbuild.ts --watch",
         "package": "bun run lint && bun esbuild.ts --production",
-        "compile-tests": "bun build --sourcemap --outdir out --external 'vscode' --format cjs --target node src/*.ts src/**/*.ts",
+        "compile-tests": "bun build --sourcemap --outdir out/test --external 'vscode' --format cjs --target node src/test/*.ts",
         "test": "vscode-test",
         "pretest": "bun run compile-tests && bun run compile && bun run lint",
         "lint": "biome check . && biome format .",
