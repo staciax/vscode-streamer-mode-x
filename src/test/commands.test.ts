@@ -34,7 +34,6 @@ suite('Commands Test Suite', () => {
             throw new Error('No workspace folder found');
         }
 
-        console.log('Workspace Folder:', workspaceFolder.uri.fsPath);
         // Ensure workspace directory exists (it should, but just in case)
         if (!fs.existsSync(workspaceFolder.uri.fsPath)) {
             fs.mkdirSync(workspaceFolder.uri.fsPath, { recursive: true });
@@ -100,9 +99,6 @@ suite('Commands Test Suite', () => {
             .getConfiguration('workbench')
             .get<Record<string, string>>('editorAssociations');
         const pattern = path.basename(tempFileUri.fsPath);
-
-        console.log('Config after protect:', JSON.stringify(config, null, 2));
-        console.log('Expected pattern:', pattern);
 
         assert.strictEqual(
             config?.[pattern],
