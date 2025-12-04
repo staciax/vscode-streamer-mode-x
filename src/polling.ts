@@ -29,7 +29,7 @@ export class PollingService implements vscode.Disposable {
         }
     }
 
-    public start() {
+    public start(enabledOverride?: boolean) {
         this.stop();
 
         const settings = getSettings();
@@ -41,8 +41,9 @@ export class PollingService implements vscode.Disposable {
         const activeInterval = settings.autoDetected.interval.active;
         const inactiveInterval = settings.autoDetected.interval.inactive;
 
-        const delay =
-            (settings.enabled ? activeInterval : inactiveInterval) * 1000;
+        const isEnabled = enabledOverride ?? settings.enabled;
+
+        const delay = (isEnabled ? activeInterval : inactiveInterval) * 1000;
 
         this.interval = setInterval(() => this.check(), delay);
         this.logger.debug(`polling: interval set to ${delay}ms`);
@@ -73,12 +74,14 @@ export class PollingService implements vscode.Disposable {
                     'Streamer Mode enabled automatically (Streaming app detected)',
                 );
                 this.logger.info('polling: auto-enabled streamer mode');
+                this.start(true);
             } else if (!isStreaming && settings.enabled) {
                 await updateConfig('streamer-mode', 'enabled', false);
                 vscode.window.showInformationMessage(
                     'Streamer Mode disabled automatically (No streaming app detected)',
                 );
                 this.logger.info('polling: auto-disabled streamer mode');
+                this.start(false);
             }
         } catch (error) {
             this.logger.error(
