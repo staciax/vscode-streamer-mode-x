@@ -34,8 +34,8 @@ export async function toggleFileProtection(
         const relativePath = vscode.workspace.asRelativePath(uri);
         pattern = `${relativePath}/**`;
     } else {
-        const basename = Utils.basename(uri);
-        pattern = basename;
+        const relativePath = Utils.basename(uri);
+        pattern = relativePath;
     }
 
     const inspected = config.inspect<Record<string, string>>(key);
