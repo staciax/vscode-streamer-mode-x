@@ -104,7 +104,7 @@
                 {
                     "command": "streamer-mode.toggleFileProtection",
                     "group": "navigation",
-                    "when": "resourceLangId"
+                    "when": "resourceScheme == file"
                 }
             ]
         },
