@@ -44,10 +44,10 @@ export async function activate(context: vscode.ExtensionContext) {
     context.subscriptions.push(
         vscode.commands.registerCommand(
             'streamer-mode.toggleFileProtection',
-            (uri?: vscode.Uri) => {
+            async (uri?: vscode.Uri) => {
                 const targetUri =
                     uri ?? vscode.window.activeTextEditor?.document.uri;
-                toggleFileProtection(targetUri, logger);
+                await toggleFileProtection(targetUri, logger);
             },
         ),
     );
