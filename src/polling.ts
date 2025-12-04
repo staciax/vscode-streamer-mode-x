@@ -7,12 +7,15 @@ import { detectStreamingApps } from './utils/streamer';
 export class PollingService implements vscode.Disposable {
     private interval: NodeJS.Timeout | undefined;
     private isChecking = false;
-    private readonly logger: Logger;
+    private readonly detector: (additionalApps?: string[]) => Promise<boolean>;
 
     private disposables: vscode.Disposable[] = [];
 
-    constructor(logger: Logger) {
-        this.logger = logger;
+    constructor(
+        private logger: Logger,
+        detector?: (additionalApps?: string[]) => Promise<boolean>,
+    ) {
+        this.detector = detector ?? detectStreamingApps;
 
         vscode.workspace.onDidChangeConfiguration(
             this.onConfigurationChanged,
@@ -72,7 +75,7 @@ export class PollingService implements vscode.Disposable {
                 return;
             }
 
-            const isStreaming = await detectStreamingApps(
+            const isStreaming = await this.detector(
                 settings.autoDetected.additionalApps,
             );
             if (isStreaming && !settings.enabled) {
