@@ -12,7 +12,9 @@ export async function detectStreamingApps(
 ): Promise<boolean> {
     const allApps = [
         ...STREAMING_APPS,
-        ...additionalApps.map((app) => app.toLowerCase()),
+        ...additionalApps
+            .filter(isValidAppName)
+            .map((app) => app.toLowerCase()),
     ];
     try {
         const processes = await find('name', '');
@@ -24,4 +26,8 @@ export async function detectStreamingApps(
         console.log(`Failed to detect streaming apps: ${error}`);
         return false;
     }
+}
+
+export function isValidAppName(name: string): boolean {
+    return name.trim().length > 0 && /^[a-zA-Z0-9 _.-]{1,64}$/.test(name);
 }
