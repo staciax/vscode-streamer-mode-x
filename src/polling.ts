@@ -87,6 +87,8 @@ export class PollingService implements vscode.Disposable {
                 );
                 this.logger.info('polling: auto-enabled streamer mode');
                 this.start(true);
+                // Immediately check again to avoid missing rapid state changes
+                this.check();
             } else if (!isStreaming && settings.enabled) {
                 await updateConfig('streamer-mode', 'enabled', false);
                 vscode.window.showInformationMessage(
@@ -94,6 +96,8 @@ export class PollingService implements vscode.Disposable {
                 );
                 this.logger.info('polling: auto-disabled streamer mode');
                 this.start(false);
+                // Immediately check again to avoid missing rapid state changes
+                this.check();
             }
         } catch (error) {
             this.logger.error(
