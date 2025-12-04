@@ -50,7 +50,7 @@ When disabled, protected files will open normally without the warning screen.
 The extension can automatically enable Streamer Mode when it detects streaming software running on your computer.
 
 > [!WARNING]
-> This feature has only been tested on VS Code Version: 1.106.3 (Universal) on MacOS.
+> This feature has only been tested on VS Code Version: 1.106.3 (Universal) on macOS.
 
 - **Supported Apps**: OBS Studio, Streamlabs, XSplit.
 - **Configuration**:
