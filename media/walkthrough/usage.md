@@ -2,7 +2,7 @@
 
 ## Hiding Files
 1. **Right-click** a file in Explorer and select **Toggle File Protection**.
-2. Or use the **Eye Icon** in the editor title bar.
+2. Or use the **Lock Icon** in the editor title bar.
 3. Or press `Cmd+Option+P` (Mac) / `Ctrl+Alt+P` (Win).
 
 ## Global Toggle
