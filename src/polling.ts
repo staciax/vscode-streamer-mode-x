@@ -70,7 +70,9 @@ export class PollingService implements vscode.Disposable {
         try {
             const settings = getSettings();
 
-            // Double check config in case it changed, but start() already handles the interval
+            // Check config again in case 'autoDetected.enable' was disabled since the last interval.
+            // This prevents unnecessary polling if the feature is turned off between intervals.
+            // Note: start() handles interval timing, but not this enable/disable check.
             if (!settings.autoDetected.enable) {
                 return;
             }
