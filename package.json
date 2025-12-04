@@ -196,13 +196,11 @@
         "@biomejs/biome": "2.3.8",
         "@types/mocha": "^10.0.10",
         "@types/node": "^24.10.1",
-        "@types/proxyquire": "^1.3.31",
         "@types/vscode": "^1.95.0",
         "@vscode/test-cli": "^0.0.12",
         "@vscode/test-electron": "^2.5.2",
         "esbuild": "~0.27.0",
-        "ovsx": "~0.10.7",
-        "proxyquire": "~2.1.3"
+        "ovsx": "~0.10.7"
     },
     "peerDependencies": {
         "typescript": "^5.7.3"
