@@ -61,6 +61,15 @@ export class PollingService implements vscode.Disposable {
     }
 
     public async check() {
+        const settings = getSettings();
+
+        // Check config again in case 'autoDetected.enable' was disabled since the last interval.
+        // This prevents unnecessary polling if the feature is turned off between intervals.
+        // Note: start() handles interval timing, but not this enable/disable check.
+        if (!settings.autoDetected.enable) {
+            return;
+        }
+
         if (this.isChecking) {
             return;
         }
@@ -68,15 +77,6 @@ export class PollingService implements vscode.Disposable {
         this.isChecking = true;
 
         try {
-            const settings = getSettings();
-
-            // Check config again in case 'autoDetected.enable' was disabled since the last interval.
-            // This prevents unnecessary polling if the feature is turned off between intervals.
-            // Note: start() handles interval timing, but not this enable/disable check.
-            if (!settings.autoDetected.enable) {
-                return;
-            }
-
             const isStreaming = await this.detector(
                 settings.autoDetected.additionalApps,
             );
@@ -87,8 +87,6 @@ export class PollingService implements vscode.Disposable {
                 );
                 this.logger.info('polling: auto-enabled streamer mode');
                 this.start(true);
-                // Immediately check again to avoid missing rapid state changes
-                this.check();
             } else if (!isStreaming && settings.enabled) {
                 await updateConfig('streamer-mode', 'enabled', false);
                 vscode.window.showInformationMessage(
@@ -96,8 +94,6 @@ export class PollingService implements vscode.Disposable {
                 );
                 this.logger.info('polling: auto-disabled streamer mode');
                 this.start(false);
-                // Immediately check again to avoid missing rapid state changes
-                this.check();
             }
         } catch (error) {
             this.logger.error(
