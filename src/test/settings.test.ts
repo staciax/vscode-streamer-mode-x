@@ -76,6 +76,11 @@ suite('Settings Test Suite', () => {
     });
 
     test('getSettings should return default values', () => {
+        const config = vscode.workspace.getConfiguration('streamer-mode');
+        console.log(
+            'Inspect autoDetected.enable:',
+            config.inspect('autoDetected.enable'),
+        );
         const settings = getSettings();
         assert.strictEqual(settings.enabled, true);
         assert.strictEqual(settings.autoDetected.enable, false);
