@@ -45,16 +45,21 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 
 **Full Changelog**: https://github.com/staciax/vscode-streamer-mode-x/compare/v0.0.3...v0.0.8
 
-## [0.1.0] - 2025-12-03
+## [0.1.0] - 2025-12-05
 
 ### Added
 - **Walkthrough**: New "Get Started" page to guide users.
 - **Keybindings**:
-    - `Cmd+Option+H` (Mac) / `Ctrl+Alt+H`: Toggle Hide File.
+    - `Cmd+Option+P` (Mac) / `Ctrl+Alt+P`: Toggle Hide File.
     - `Cmd+Option+S` (Mac) / `Ctrl+Alt+S`: Toggle Streamer Mode.
 - **Editor Title Menu**: Lock icon to quickly hide/unhide files.
 - **Badges**: 'S' badge for hidden files in Explorer.
-- **Configuration**: New setting `streamer-mode.autoDetected.additionalApps` to allow users to specify custom streaming apps.
+- **[Auto-Detection](README.md#auto-detection)**: Automatic enabling of Streamer Mode when streaming software is detected.
+- **Configuration**:
+    - `streamer-mode.autoDetected.enable`: Enable/disable auto-detection (default: `false`).
+    - `streamer-mode.autoDetected.interval.active`: Polling interval when Streamer Mode is enabled (default: `60` seconds).
+    - `streamer-mode.autoDetected.interval.inactive`: Polling interval when Streamer Mode is disabled (default: `30` seconds).
+    - `streamer-mode.autoDetected.additionalApps`: List of additional process names to detect as streaming apps.
 - **Documentation**: Updated supported apps list and added compatibility warning for Auto-Detection.
 - **Codebase Cleanup**: Optimized performance.
 
