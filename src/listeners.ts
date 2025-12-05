@@ -12,9 +12,6 @@ export function streamerModeConfigChangeHandler(
 ) {
     if (e.affectsConfiguration('streamer-mode.enabled')) {
         const settings = getSettings();
-        if (!settings.enabled) {
-            return;
-        }
         statusBar.update(settings.enabled);
         fileDecorator.refresh();
     }
@@ -31,10 +28,6 @@ export function createEditorAssociationsHandler(
 
     return (e: vscode.ConfigurationChangeEvent): void => {
         if (e.affectsConfiguration('workbench.editorAssociations')) {
-            const settings = getSettings();
-            if (!settings.enabled) {
-                return;
-            }
             const config = vscode.workspace.getConfiguration();
             const currentAssociations =
                 config.get<Record<string, string>>(
