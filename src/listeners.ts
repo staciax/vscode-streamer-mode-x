@@ -2,16 +2,20 @@ import vscode from 'vscode';
 
 import { StreamerModeEditor } from './editor';
 import type { StreamerModeFileDecorationProvider } from './file-decorator';
+import { getSettings } from './settings';
 import type { StatusBar } from './status-bar';
 
 export function streamerModeConfigChangeHandler(
     e: vscode.ConfigurationChangeEvent,
     statusBar: StatusBar,
-    isEnabled: boolean,
     fileDecorator: StreamerModeFileDecorationProvider,
 ) {
     if (e.affectsConfiguration('streamer-mode.enabled')) {
-        statusBar.update(isEnabled);
+        const settings = getSettings();
+        if (!settings.enabled) {
+            return;
+        }
+        statusBar.update(settings.enabled);
         fileDecorator.refresh();
     }
     // e.affectsConfiguration('streamer-mode.autoDetected')
@@ -27,6 +31,10 @@ export function createEditorAssociationsHandler(
 
     return (e: vscode.ConfigurationChangeEvent): void => {
         if (e.affectsConfiguration('workbench.editorAssociations')) {
+            const settings = getSettings();
+            if (!settings.enabled) {
+                return;
+            }
             const config = vscode.workspace.getConfiguration();
             const currentAssociations =
                 config.get<Record<string, string>>(
