@@ -1,25 +1,28 @@
 import vscode from 'vscode';
 
 import type Logger from './logger';
+import { getSettings, updateConfig } from './settings';
 import type { StatusBar } from './status-bar';
 import { getNonce } from './utils/nonce';
 
 export class StreamerModeEditor implements vscode.CustomTextEditorProvider {
     /**
+     * The custom editor view type
+     */
+    public static readonly viewType = 'streamer-mode';
+
+    /**
      * Whether streamer mode is enabled
      */
-    private isEnable = true;
-
-    // /**
-    //  *  Logger for the Streamer Mode Editor
-    //  */
-    // private readonly logger: Logger;
+    private get isEnable(): boolean {
+        return getSettings().enabled;
+    }
 
     public static register(
         context: vscode.ExtensionContext,
         statusBar: StatusBar,
         logger: Logger,
-    ): vscode.Disposable {
+    ): StreamerModeEditor {
         const provider = new StreamerModeEditor(context, statusBar, logger);
         const providerRegistration = vscode.window.registerCustomEditorProvider(
             StreamerModeEditor.viewType,
@@ -27,26 +30,23 @@ export class StreamerModeEditor implements vscode.CustomTextEditorProvider {
         );
 
         context.subscriptions.push(
-            vscode.commands.registerCommand(
-                'vscode-streamer-mode-x.toggle',
-                () => {
-                    provider.toggle();
-                    vscode.window.showInformationMessage(
-                        `Streamer Mode is ${provider.isEnable ? 'Enabled' : 'Disabled'}`,
-                    );
-                    logger.info(
-                        `editor: toggled streamer mode to ${provider.isEnable}`,
-                    );
-                },
-            ),
+            vscode.commands.registerCommand('streamer-mode.toggle', () => {
+                provider.toggle();
+                vscode.window.showInformationMessage(
+                    `Streamer Mode is ${provider.isEnable ? 'Enabled' : 'Disabled'}`,
+                );
+                logger.info(
+                    `editor: toggled streamer mode to ${provider.isEnable}`,
+                );
+            }),
         );
+
+        context.subscriptions.push(providerRegistration);
 
         logger.debug('editor: registered custom editor provider');
 
-        return providerRegistration;
+        return provider;
     }
-
-    public static readonly viewType = 'vscode-streamer-mode-x.editor';
 
     constructor(
         private readonly context: vscode.ExtensionContext,
@@ -82,6 +82,7 @@ export class StreamerModeEditor implements vscode.CustomTextEditorProvider {
         webviewPanel.webview.options = {
             enableScripts: true,
         };
+
         webviewPanel.webview.html = this.getHtmlForWebview(
             webviewPanel.webview,
         );
@@ -114,37 +115,6 @@ export class StreamerModeEditor implements vscode.CustomTextEditorProvider {
                     break;
             }
         });
-
-        function updateWebview() {
-            webviewPanel.webview.postMessage({
-                type: 'update',
-                text: document.getText(),
-            });
-        }
-
-        // Hook up event handlers so that we can synchronize the webview with the text document.
-        //
-        // The text document acts as our model, so we have to sync change in the document to our
-        // editor and sync changes in the editor back to the document.
-        //
-        // Remember that a single text document can also be shared between multiple custom
-        // editors (this happens for example when you split a custom editor)
-
-        const changeDocumentSubscription =
-            vscode.workspace.onDidChangeTextDocument(
-                (e: vscode.TextDocumentChangeEvent) => {
-                    if (e.document.uri.fsPath === document.uri.fsPath) {
-                        updateWebview();
-                    }
-                },
-            );
-
-        // Make sure we get rid of the listener when our editor is closed.
-        webviewPanel.onDidDispose(() => {
-            changeDocumentSubscription.dispose();
-        });
-
-        updateWebview();
     }
 
     /**
@@ -172,9 +142,18 @@ export class StreamerModeEditor implements vscode.CustomTextEditorProvider {
                 'streamer-mode.css',
             ),
         );
+        const codiconsUri = webview.asWebviewUri(
+            vscode.Uri.joinPath(
+                this.context.extensionUri,
+                'node_modules',
+                '@vscode/codicons',
+                'dist',
+                'codicon.css',
+            ),
+        );
 
         const nonce = getNonce();
-        const csp = `default-src 'none'; style-src ${webview.cspSource}; script-src 'nonce-${nonce}';`;
+        const csp = `default-src 'none'; font-src ${webview.cspSource}; style-src ${webview.cspSource}; script-src 'nonce-${nonce}';`;
 
         return /* html */ `
         <!doctype html>
@@ -185,19 +164,22 @@ export class StreamerModeEditor implements vscode.CustomTextEditorProvider {
             <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
             <link href="${styleVSCodeUri}" rel="stylesheet" />
+            <link href="${codiconsUri}" rel="stylesheet" />
             <link href="${styleMainUri}" rel="stylesheet" />
 
             <title>Streamer Mode Warning</title>
         </head>
         <body>
             <div class="container">
-                <div class="warning-icon">⚠️</div>
+                <div class="warning-icon">
+                    <i class="codicon codicon-lock"></i>
+                </div>
                 <h1 class="warning-title">Streamer Mode Active</h1>
                 <p class="warning-text">
                     File hidden for privacy. Disable streamer mode to view content.
                 </p>
                 <div class="button-container">
-                    <button class="open-button">Open Anyway</button>
+                    <button class="open-button">View Anyway</button>
                     <button class="close-button secondary">Close</button>
                 </div>
             </div>
@@ -207,8 +189,14 @@ export class StreamerModeEditor implements vscode.CustomTextEditorProvider {
     `;
     }
 
-    private toggle() {
-        this.isEnable = !this.isEnable;
-        this.statusBar.update(this.isEnable);
+    public async toggle() {
+        await this.setEnable(!this.isEnable);
+    }
+
+    public async setEnable(enable: boolean) {
+        if (this.isEnable !== enable) {
+            await updateConfig('streamer-mode', 'enabled', enable);
+            this.statusBar.update(enable);
+        }
     }
 }

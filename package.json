@@ -1,9 +1,9 @@
 {
     "name": "vscode-streamer-mode-x",
     "module": "src/extension.ts",
-    "displayName": "VSCode Streamer Mode X",
+    "displayName": "Streamer Mode X",
     "description": "A Visual Studio Code extension that protects sensitive files",
-    "version": "0.0.8",
+    "version": "0.1.0",
     "publisher": "staciax",
     "repository": {
         "type": "git",
@@ -42,26 +42,48 @@
     ],
     "main": "./dist/extension.js",
     "contributes": {
+        "walkthroughs": [
+            {
+                "id": "streamer-mode-walkthrough",
+                "title": "Get Started with Streamer Mode X",
+                "description": "Learn how to protect your sensitive files.",
+                "steps": [
+                    {
+                        "id": "intro",
+                        "title": "Welcome",
+                        "description": "media/walkthrough/intro.md",
+                        "media": {
+                            "image": "media/icon.png",
+                            "altText": "Streamer Mode X Icon"
+                        }
+                    },
+                    {
+                        "id": "usage",
+                        "title": "How to Use",
+                        "description": "media/walkthrough/usage.md",
+                        "media": {
+                            "markdown": "media/walkthrough/usage.md"
+                        }
+                    }
+                ]
+            }
+        ],
         "commands": [
             {
-                "command": "vscode-streamer-mode-x.toggle",
+                "command": "streamer-mode.toggle",
                 "title": "Toggle",
                 "category": "Streamer Mode"
             },
             {
-                "command": "vscode-streamer-mode-x.addAssociation",
-                "title": "Add File Association",
-                "category": "Streamer Mode"
-            },
-            {
-                "command": "vscode-streamer-mode-x.removeAssociation",
-                "title": "Remove File Association",
-                "category": "Streamer Mode"
+                "command": "streamer-mode.toggleFileProtection",
+                "title": "Toggle File Protection",
+                "category": "Streamer Mode",
+                "icon": "$(lock)"
             }
         ],
         "customEditors": [
             {
-                "viewType": "vscode-streamer-mode-x.editor",
+                "viewType": "streamer-mode",
                 "displayName": "Streamer Mode",
                 "selector": [
                     {
@@ -69,6 +91,86 @@
                     }
                 ],
                 "priority": "default"
+            }
+        ],
+        "menus": {
+            "explorer/context": [
+                {
+                    "command": "streamer-mode.toggleFileProtection",
+                    "group": "2_workspace@1"
+                }
+            ],
+            "editor/title": [
+                {
+                    "command": "streamer-mode.toggleFileProtection",
+                    "group": "navigation",
+                    "when": "resourceScheme == file"
+                }
+            ]
+        },
+        "keybindings": [
+            {
+                "command": "streamer-mode.toggleFileProtection",
+                "key": "ctrl+alt+p",
+                "mac": "cmd+alt+p",
+                "when": "editorTextFocus"
+            },
+            {
+                "command": "streamer-mode.toggle",
+                "key": "ctrl+alt+s",
+                "mac": "cmd+alt+s"
+            }
+        ],
+        "configuration": {
+            "title": "Streamer Mode",
+            "properties": {
+                "streamer-mode.autoDetected.enable": {
+                    "type": "boolean",
+                    "default": false,
+                    "description": "Automatically enable streamer mode when streaming software is detected."
+                },
+                "streamer-mode.autoDetected.interval.active": {
+                    "type": "number",
+                    "default": 60,
+                    "minimum": 5,
+                    "maximum": 3600,
+                    "description": "Polling interval in seconds when Streamer Mode is enabled."
+                },
+                "streamer-mode.autoDetected.interval.inactive": {
+                    "type": "number",
+                    "default": 30,
+                    "minimum": 5,
+                    "maximum": 3600,
+                    "description": "Polling interval in seconds when Streamer Mode is disabled."
+                },
+                "streamer-mode.autoDetected.additionalApps": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "default": [],
+                    "description": "List of additional process names to detect as streaming apps."
+                },
+                "streamer-mode.enabled": {
+                    "type": "boolean",
+                    "default": true,
+                    "description": "Enable or disable Streamer Mode."
+                },
+                "streamer-mode.decoration.propagate": {
+                    "type": "boolean",
+                    "default": true,
+                    "description": "Propagate the protected file decoration to parent folders."
+                }
+            }
+        },
+        "colors": [
+            {
+                "id": "streamerMode.hiddenFile",
+                "description": "Color for files protected in streamer mode",
+                "defaults": {
+                    "light": "#555c7e",
+                    "dark": "#555c7e"
+                }
             }
         ]
     },
@@ -78,13 +180,17 @@
         "watch": "bun run compile --watch --outdir ./out",
         "watch:esbuild": "bun esbuild.ts --watch",
         "package": "bun run lint && bun esbuild.ts --production",
-        "compile-tests": "bun build --sourcemap --outdir out --external 'vscode' --format cjs --target node src/*.ts src/**/*.ts",
+        "compile-tests": "bun build --sourcemap --outdir out --external 'vscode' --format cjs --target node src/test/*.ts src/test/**/*.ts",
         "test": "vscode-test",
+        "test:coverage": "vscode-test --coverage",
         "pretest": "bun run compile-tests && bun run compile && bun run lint",
         "lint": "biome check . && biome format .",
         "format": "biome check --write . && biome format . --write"
     },
     "dependencies": {
+        "@vscode/codicons": "~0.0.43",
+        "find-process": "~2.0.0",
+        "minimatch": "~10.1.1",
         "vscode-uri": "~3.1.0"
     },
     "devDependencies": {

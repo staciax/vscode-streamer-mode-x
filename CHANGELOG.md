@@ -44,3 +44,19 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 - feat: migrate from ESLint and Prettier to BiomeJS for linting and formatting
 
 **Full Changelog**: https://github.com/staciax/vscode-streamer-mode-x/compare/v0.0.3...v0.0.8
+
+## [0.1.0] - 2025-12-03
+
+### Added
+- **Walkthrough**: New "Get Started" page to guide users.
+- **Keybindings**:
+    - `Cmd+Option+H` (Mac) / `Ctrl+Alt+H`: Toggle Hide File.
+    - `Cmd+Option+S` (Mac) / `Ctrl+Alt+S`: Toggle Streamer Mode.
+- **Editor Title Menu**: Lock icon to quickly hide/unhide files.
+- **Badges**: 'S' badge for hidden files in Explorer.
+- **Configuration**: New setting `streamer-mode.autoDetected.additionalApps` to allow users to specify custom streaming apps.
+- **Documentation**: Updated supported apps list and added compatibility warning for Auto-Detection.
+- **Codebase Cleanup**: Optimized performance.
+
+### Removed
+- **Commands**: Removed `Add File Association` and `Remove File Association` commands in favor of the new toggle functionality.
