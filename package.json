@@ -182,6 +182,7 @@
         "package": "bun run lint && bun esbuild.ts --production",
         "compile-tests": "bun build --sourcemap --outdir out --external 'vscode' --format cjs --target node src/test/*.ts src/test/**/*.ts",
         "test": "vscode-test",
+        "test:coverage": "vscode-test --coverage",
         "pretest": "bun run compile-tests && bun run compile && bun run lint",
         "lint": "biome check . && biome format .",
         "format": "biome check --write . && biome format . --write"
