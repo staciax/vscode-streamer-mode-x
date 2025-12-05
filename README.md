@@ -63,7 +63,7 @@ The extension can automatically enable Streamer Mode when it detects streaming s
 
 You can quickly hide or unhide the current file:
 
-1. **Editor Title Menu**: Click the **Eye Icon** in the top-right corner of the editor.
+1. **Editor Title Menu**: Click the **Lock Icon** in the top-right corner of the editor.
 2. **Keybinding**: Press `Cmd+Option+P` (Mac) or `Ctrl+Alt+P` (Windows/Linux).
 3. **Context Menu**: Right-click a file in Explorer and select "Toggle File Protection".
 
