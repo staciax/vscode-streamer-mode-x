@@ -23,7 +23,17 @@ export async function toggleFileProtection(
         return;
     }
 
-    const stat = await vscode.workspace.fs.stat(uri);
+    let stat: vscode.FileStat;
+    try {
+        stat = await vscode.workspace.fs.stat(uri);
+    } catch (e) {
+        const errorMessage = e instanceof Error ? e.message : String(e);
+        logger.error(`Failed to access file/folder: ${errorMessage}`);
+        vscode.window.showErrorMessage(
+            `Cannot access file/folder: ${errorMessage}`,
+        );
+        return;
+    }
     const isFolder = stat.type === vscode.FileType.Directory;
 
     const config = vscode.workspace.getConfiguration();
