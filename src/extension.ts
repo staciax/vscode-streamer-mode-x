@@ -38,7 +38,15 @@ export async function activate(context: vscode.ExtensionContext) {
 
     context.subscriptions.push(
         vscode.workspace.onDidChangeConfiguration((e) => {
-            streamerModeConfigChangeHandler(e, statusBar, fileDecorator);
+            if (!settings.enabled) {
+                return;
+            }
+            streamerModeConfigChangeHandler(
+                e,
+                statusBar,
+                settings.enabled,
+                fileDecorator,
+            );
             editorAssociationsHandler(e);
         }),
     );
@@ -47,6 +55,12 @@ export async function activate(context: vscode.ExtensionContext) {
         vscode.commands.registerCommand(
             'streamer-mode.toggleFileProtection',
             async (uri?: vscode.Uri) => {
+                const settings = getSettings();
+
+                if (!settings.enabled) {
+                    return;
+                }
+
                 const targetUri =
                     uri ?? vscode.window.activeTextEditor?.document.uri;
                 await toggleFileProtection(targetUri, logger);
