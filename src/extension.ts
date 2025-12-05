@@ -13,8 +13,6 @@ import { getSettings } from './settings';
 import { StatusBar } from './status-bar';
 
 export async function activate(context: vscode.ExtensionContext) {
-    const settings = getSettings();
-
     const logger = new Logger('VSCode Streamer Mode');
 
     logger.debug('extension: activating');
@@ -26,7 +24,8 @@ export async function activate(context: vscode.ExtensionContext) {
 
     // Check immediately
     await pollingService.check();
-    statusBar.update(settings.enabled);
+    const updatedSettings = getSettings();
+    statusBar.update(updatedSettings.enabled);
     pollingService.start();
 
     context.subscriptions.push(pollingService);
@@ -38,6 +37,7 @@ export async function activate(context: vscode.ExtensionContext) {
 
     context.subscriptions.push(
         vscode.workspace.onDidChangeConfiguration((e) => {
+            const settings = getSettings();
             if (!settings.enabled) {
                 return;
             }
