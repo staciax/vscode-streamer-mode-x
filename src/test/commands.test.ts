@@ -74,18 +74,16 @@ suite('Commands Test Suite', () => {
         const doc = await vscode.workspace.openTextDocument(tempFileUri);
         await vscode.window.showTextDocument(doc);
 
-        const initialConfig = vscode.workspace
-            .getConfiguration('workbench')
-            .get('editorAssociations');
         await toggleFileProtection(undefined, logger);
         const finalConfig = vscode.workspace
             .getConfiguration('workbench')
-            .get('editorAssociations');
+            .get<Record<string, string>>('editorAssociations');
 
-        assert.deepStrictEqual(
-            initialConfig,
-            finalConfig,
-            'Config should not change if no URI provided',
+        const pattern = path.basename(tempFileUri.fsPath);
+        assert.strictEqual(
+            finalConfig?.[pattern],
+            StreamerModeEditor.viewType,
+            'File should be protected when using active editor URI',
         );
     });
 

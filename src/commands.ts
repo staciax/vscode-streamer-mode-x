@@ -19,8 +19,13 @@ export async function toggleFileProtection(
     }
 
     if (!uri) {
-        vscode.window.showInformationMessage('No file selected');
-        return;
+        const activeEditor = vscode.window.activeTextEditor;
+        if (activeEditor) {
+            uri = activeEditor.document.uri;
+        } else {
+            vscode.window.showInformationMessage('No file selected');
+            return;
+        }
     }
 
     let stat: vscode.FileStat;
