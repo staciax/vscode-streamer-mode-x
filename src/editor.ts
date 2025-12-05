@@ -14,7 +14,7 @@ export class StreamerModeEditor implements vscode.CustomTextEditorProvider {
     /**
      * Whether streamer mode is enabled
      */
-    public get isEnable(): boolean {
+    private get isEnable(): boolean {
         return getSettings().enabled;
     }
 

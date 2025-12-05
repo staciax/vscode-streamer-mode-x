@@ -2,16 +2,17 @@ import vscode from 'vscode';
 
 import { StreamerModeEditor } from './editor';
 import type { StreamerModeFileDecorationProvider } from './file-decorator';
+import { getSettings } from './settings';
 import type { StatusBar } from './status-bar';
 
 export function streamerModeConfigChangeHandler(
     e: vscode.ConfigurationChangeEvent,
     statusBar: StatusBar,
-    editor: StreamerModeEditor,
     fileDecorator: StreamerModeFileDecorationProvider,
 ) {
     if (e.affectsConfiguration('streamer-mode.enabled')) {
-        statusBar.update(editor.isEnable);
+        const settings = getSettings();
+        statusBar.update(settings.enabled);
         fileDecorator.refresh();
     }
     // e.affectsConfiguration('streamer-mode.autoDetected')

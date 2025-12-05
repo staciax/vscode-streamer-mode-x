@@ -9,22 +9,24 @@ import {
 } from './listeners';
 import Logger from './logger';
 import { PollingService } from './polling';
+import { getSettings } from './settings';
 import { StatusBar } from './status-bar';
 
 export async function activate(context: vscode.ExtensionContext) {
+    const settings = getSettings();
+
     const logger = new Logger('VSCode Streamer Mode');
 
     logger.debug('extension: activating');
 
     const statusBar = new StatusBar(logger);
 
-    const editor = StreamerModeEditor.register(context, statusBar, logger);
-    statusBar.update(editor.isEnable);
-
+    StreamerModeEditor.register(context, statusBar, logger);
     const pollingService = new PollingService(logger);
 
     // Check immediately
     await pollingService.check();
+    statusBar.update(settings.enabled);
     pollingService.start();
 
     context.subscriptions.push(pollingService);
@@ -36,12 +38,7 @@ export async function activate(context: vscode.ExtensionContext) {
 
     context.subscriptions.push(
         vscode.workspace.onDidChangeConfiguration((e) => {
-            streamerModeConfigChangeHandler(
-                e,
-                statusBar,
-                editor,
-                fileDecorator,
-            );
+            streamerModeConfigChangeHandler(e, statusBar, fileDecorator);
             editorAssociationsHandler(e);
         }),
     );
